@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">实验室管理</string>
+
+
+    <string name="selectlose">你需要挂失的是:</string>
+    <string name="selectreturn">你需要归还的是:</string>
+    <string name="help">帮助</string>
+    <string name="about">关于</string>
+    <string name="information">      凡损坏实验室设备的同学，在上报成功后请速与实验室管理员联系，解决设备损坏事宜！</string>
+</resources>
