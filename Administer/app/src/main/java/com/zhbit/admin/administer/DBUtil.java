@@ -2,10 +2,7 @@ package com.zhbit.admin.administer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Vector;
 /**
  * Created by Administrator on 2017/12/24 0024.
@@ -26,6 +23,7 @@ public class DBUtil {
             Class.forName("org.gjt.mm.mysql.Driver");
             System.out.println("222");
             con=DriverManager.getConnection("jdbc:mysql://192.168.0.100:3306/test?useUnicode=true&characterEncoding=UTF-8","root","123456");
+            con= DriverManager.getConnection("");
             System.out.println("333");
         }
         catch(Exception e)

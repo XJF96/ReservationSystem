@@ -13,7 +13,7 @@ public class MyDialog extends Dialog
     int id;
     public MyDialog(Context context, int id)
     {
-        super(context,R.style.FullHeightDialog);
+        super(context,R.style.AppTheme);//取消标题
         this.id=id;
     }
 

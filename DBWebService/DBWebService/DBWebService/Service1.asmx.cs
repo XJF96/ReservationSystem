@@ -8,8 +8,6 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
 
-using System.Collections.Generic;
-
 namespace DBWebService
 {
     /// <summary>
@@ -27,7 +25,7 @@ namespace DBWebService
         [WebMethod]
         public String HelloWorld()
         {
-            return "Hello World";
+            return "Hello World, 測試成功";
         }
 
         [WebMethod(Description = "登录验证")]

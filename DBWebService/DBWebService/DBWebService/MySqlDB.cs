@@ -19,7 +19,8 @@ namespace DBWebService
     public class MySqlDB : IDisposable
     {
         public static SqlConnection sqlCon;  //用于连接数据库
-        private String ConServerStr = @"Data Source=QIAOLEI-PC\SQLEXPRESS;AttachDbFilename=E:\毕业设计\安卓图书借阅管理系统\DB\Book.mdf;Integrated Security=True;";
+        //private String ConServerStr = @"Data Source=QIAOLEI-PC\SQLEXPRESS;AttachDbFilename=E:\Android\ReservationSystem\DB\Book.mdf;Integrated Security=True;";
+        private String ConServerStr = @"Data Source=127.0.0.1;Initial Catalog = ReservationSystem;Persist Security Info=True;User ID = sa;Password = 888888";  
         public MySqlDB()
         {
             if (sqlCon == null)
