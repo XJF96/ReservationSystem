@@ -26,7 +26,7 @@ public class MainMenuView extends SurfaceView implements SurfaceHolder.Callback{
     Bitmap logout;
     Bitmap about;
     Bitmap help;
-    public MainMenuView(RootActivity activity) {
+    public MainMenuView(RootActivity activity) {//
         super(activity);
         this.activity=activity;
         this.getHolder().addCallback(this);
@@ -138,7 +138,7 @@ public class MainMenuView extends SurfaceView implements SurfaceHolder.Callback{
         Canvas canvas=holder.lockCanvas();
         try{
             synchronized(holder){
-                onDraw(canvas);
+                //onDraw(canvas);
             }
         }catch(Exception e){
             e.printStackTrace();

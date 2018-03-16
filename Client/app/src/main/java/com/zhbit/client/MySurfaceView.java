@@ -77,7 +77,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                         Canvas canvas = myholder.lockCanvas();//获取画布
                         try{
                             synchronized(myholder){
-                                onDraw(canvas);//绘制
+                                //onDraw(canvas);//绘制
                             }
                         }
                         catch(Exception e){

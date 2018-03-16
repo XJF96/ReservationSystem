@@ -20,7 +20,8 @@ namespace DBWebService
     {
         public static SqlConnection sqlCon;  //用于连接数据库
         //private String ConServerStr = @"Data Source=QIAOLEI-PC\SQLEXPRESS;AttachDbFilename=E:\Android\ReservationSystem\DB\Book.mdf;Integrated Security=True;";
-        private String ConServerStr = @"Data Source=127.0.0.1;Initial Catalog = ReservationSystem;Persist Security Info=True;User ID = sa;Password = 888888";  
+        //private String ConServerStr = @"Data Source=127.0.0.1;Initial Catalog = ReservationSystem;Persist Security Info=True;User ID = sa;Password = 888888";
+        private String ConServerStr = "data source=localhost;initial catalog=ReservationSystem ;user ID=sa;password=888888";
         public MySqlDB()
         {
             if (sqlCon == null)
@@ -118,6 +119,7 @@ namespace DBWebService
             catch (Exception e)
             {
                 //
+                
             }
 
 

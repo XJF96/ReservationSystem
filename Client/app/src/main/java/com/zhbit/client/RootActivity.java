@@ -1,16 +1,21 @@
 package com.zhbit.client;
 
+/**
+ * Created by Administrator on 2018/3/16 0016.
+ */
+
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -31,11 +36,13 @@ import java.util.Map;
 import java.util.Vector;
 
 
+
+
 enum WhichView {MAIN_MENU,IP_VIEW,LOSE_VIEW,YUYUE_VIEW,QUERY_VIEW,GIRD_VIEW,DETIALSVIEW,YUYUEDETAILS,YUYUE_MANAGE,LOSE_INFO_VIEW,
     LOSE_DETAILS_VIEW,MANAGE_DETAILS_VIEW,QUERYMAIN_VIEW,SELF_VIEW_INFO,HELP_VIEW,ABOUT_VIEW}
 
-public class RootActivity extends AppCompatActivity {
-
+public class RootActivity extends Activity
+{
     MainMenuView mmv;
     WhichView curr;
     private String sname;//保存登录时的用户名
@@ -85,21 +92,20 @@ public class RootActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags
-                (
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN ,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN
-                );
+        //设置全屏显示
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags//整个窗体全屏
+//                (
+//                        WindowManager.LayoutParams.FLAG_FULLSCREEN ,
+//                        WindowManager.LayoutParams.FLAG_FULLSCREEN
+//                );
         //强制为竖屏
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
         goToWelcomeView();
-        //setContentView(R.layout.main);
     }
 
     //帮助界面
@@ -144,36 +150,35 @@ public class RootActivity extends AppCompatActivity {
         final EditText pwd=(EditText)findViewById(R.id.pwd);
 
         //登陆的按钮设置的监听
-        dlu.setOnClickListener(
-                new OnClickListener()
-                {
+        try {
 
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        sname=yhm.getText().toString().trim();
-                        String spwd=pwd.getText().toString().trim();
-                        String ppwd=new DBUtil().selectPwd(sname);
-                        System.out.println("==========================AAAAAAAAA=========================");
-                        System.out.print(ppwd);
-                        if(spwd.equals(ppwd))
-                        {
-                            goToMainMenu();
+            dlu.setOnClickListener(
+                    new OnClickListener() {
 
-                        }
-                        else
-                        {
-                            Toast.makeText
-                                    (
-                                            RootActivity.this,
-                                            "登陆失败",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
+                        @Override
+                        public void onClick(View v) {
+                            // TODO Auto-generated method stub
+                            sname = yhm.getText().toString().trim();//将字符串前后空格去除
+                            String spwd = pwd.getText().toString().trim();
+                            String ppwd = new DBUtil().selectPwd(sname);
+                            System.out.println("==========================AAAAAAAAA=========================");
+                            System.out.print(ppwd);
+                            if (spwd.equals(ppwd)) {
+                                goToMainMenu();
+                            } else {
+                                Toast.makeText
+                                        (
+                                                RootActivity.this,
+                                                "登陆失败",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                            }
                         }
                     }
-
-                }
-        );
+            );
+        }catch (Exception e){
+            showExitDialog01();
+        }
 
         chz.setOnClickListener
                 (
@@ -193,7 +198,14 @@ public class RootActivity extends AppCompatActivity {
 
     }
 
-
+    // 简单消息提示框
+    private void showExitDialog01(){
+        new AlertDialog.Builder(this)
+                .setTitle("错误")
+                .setMessage("登录异常")
+                .setPositiveButton("确定", null)
+                .show();
+    }
 
     public void gotoloseView()
     {
@@ -283,7 +295,7 @@ public class RootActivity extends AppCompatActivity {
         gvlose.setAdapter(sca);//为GridView设置数据适配器
         //设置选项选中的监听器
         gvlose.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener()
+                new OnItemSelectedListener()
                 {
                     @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -299,7 +311,7 @@ public class RootActivity extends AppCompatActivity {
 
         //设置选项被单击的监听器
         gvlose.setOnItemClickListener(
-                new AdapterView.OnItemClickListener()
+                new OnItemClickListener()
                 {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -516,7 +528,7 @@ public class RootActivity extends AppCompatActivity {
         gridManage01.setAdapter(gridView1(yuyueManage1,yuyueManage1));
         //设置选项选中的监听器
         gridManage01.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener()
+                new OnItemSelectedListener()
                 {
                     @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -534,7 +546,7 @@ public class RootActivity extends AppCompatActivity {
         strmanage.clear();
         //设置选项被单击的监听器
         gridManage01.setOnItemClickListener(
-                new AdapterView.OnItemClickListener()
+                new OnItemClickListener()
                 {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -630,14 +642,7 @@ public class RootActivity extends AppCompatActivity {
             setContentView(R.layout.yuyuedetails1);
             LinearLayout lo=(LinearLayout)RootActivity.this.findViewById(R.id.yuyuedetailsLinear);
             TextView tv07=(TextView)RootActivity.this.findViewById(R.id.yuyuedetailsBrrow);
-            //lo.setVisibility(1);
-//            有三个参数：Parameters:visibility One of VISIBLE, INVISIBLE, or GONE，想对应的三个常量值：0、4、8
-//            VISIBLE:0  意思是可见的
-//            INVISIBILITY:4 意思是不可见的，但还占着原来的空间
-//            GONE:8  意思是不可见的，不占用原来的布局空间
-
             lo.setVisibility(View.VISIBLE);
-
             String str=new DBUtil().gettimefromrecord(bookno);
             tv07.setText(str);
             TextView tv01=(TextView)RootActivity.this.findViewById(R.id.TextVieworderdetails01);
@@ -863,10 +868,8 @@ public class RootActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
 
-                        //simple.setVisibility(1);
-                        simple.setVisibility(View.GONE);
-                        //high.setVisibility(-1);
-                        high.setVisibility(View.VISIBLE);
+                        simple.setVisibility(View.VISIBLE);
+                        high.setVisibility(View.GONE);
                     }
 
                 }
@@ -879,10 +882,7 @@ public class RootActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
-                        //simple.setVisibility(-1);
                         simple.setVisibility(View.GONE);
-
-                        //high.setVisibility(1);
                         high.setVisibility(View.VISIBLE);
                     }
 
@@ -1002,7 +1002,7 @@ public class RootActivity extends AppCompatActivity {
 
         //设置选项选中的监听器
         gv.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener()
+                new OnItemSelectedListener()
                 {
                     @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -1020,7 +1020,7 @@ public class RootActivity extends AppCompatActivity {
 
         //设置选项被单击的监听器
         gv.setOnItemClickListener(
-                new AdapterView.OnItemClickListener()
+                new OnItemClickListener()
                 {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -1141,7 +1141,7 @@ public class RootActivity extends AppCompatActivity {
     }
 
     //等到表格的行数等得到的表格的基本信息
-    public List<? extends Map<String, ?>> generateDataList(Vector<String> v, Vector<Integer> num)
+    public List<? extends Map<String, ?>> generateDataList(Vector<String> v,Vector<Integer> num)
     {
         ArrayList<Map<String,Object>> list=new ArrayList<Map<String,Object>>();;
         int rowCounter=v.size()/4;//得到表格的行数
@@ -1190,7 +1190,7 @@ public class RootActivity extends AppCompatActivity {
         return list;
     }
 
-    public BaseAdapter gridView(Vector<String> v, Vector<Integer> result)
+    public BaseAdapter gridView(Vector<String> v,Vector<Integer> result)
     {
         SimpleAdapter sca=new SimpleAdapter
                 (
@@ -1387,3 +1387,12 @@ public class RootActivity extends AppCompatActivity {
     }
 
 }
+
+
+
+
+
+
+
+
+

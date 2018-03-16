@@ -22,7 +22,7 @@ public class DBUtil {
             System.out.println("111");
             Class.forName("org.gjt.mm.mysql.Driver");
             System.out.println("222");
-            con=DriverManager.getConnection("jdbc:mysql://192.168.0.100:3306/test?useUnicode=true&characterEncoding=UTF-8","root","123456");
+            con=DriverManager.getConnection("jdbc:mysql://192.168.0.1:8086/test?useUnicode=true&characterEncoding=UTF-8","sa","888888");
             con= DriverManager.getConnection("");
             System.out.println("333");
         }

@@ -19,7 +19,7 @@
         android:background="@drawable/title"
         >
         <TextView
-            android:text="北方工大图书管理系统"
+            android:text="北理工教室管理"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="0dip"
