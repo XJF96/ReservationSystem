@@ -15,6 +15,7 @@ public class HttpConnSoap {
     public ArrayList<String> GetWebServre(String methodName, ArrayList<String> Parameters, ArrayList<String>ParValues)
     {
         ArrayList<String> Values=new ArrayList<String>();
+
         String ServerUrl="http://192.168.191.1:8086/Service1.asmx";
         //String soapAction="http://tempuri.org/LongUserId1";
         String soapAction="http://tempuri.org/"+methodName;
@@ -45,16 +46,24 @@ public class HttpConnSoap {
 
         try{
             URL url =new URL(ServerUrl);
-            HttpURLConnection con=(HttpURLConnection)url.openConnection();
+            HttpURLConnection con=(HttpURLConnection)url.openConnection();//利用HttpURLConnection对象连接
             byte[] bytes=requestData.getBytes("utf-8");
-            con.setDoInput(true);
-            con.setDoOutput(true);
-            con.setUseCaches(false);
+            con.setDoInput(true); //设置使用 URL 连接进行输入数据
+            con.setDoOutput(true);  //设置使用 URL 连接进行输出数据
+            con.setUseCaches(false);   //禁止使用缓存
             con.setConnectTimeout(6000);// 设置超时时间
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "text/xml;charset=utf-8");
+            con.setRequestMethod("POST");//设置请求方式
+
+            con.setRequestProperty("Content-Type", "text/xml;charset=utf-8");//设置内容类型
             con.setRequestProperty("SOAPAction",soapAction);
             con.setRequestProperty("Content-Length",""+bytes.length);
+
+            con.connect();//连接??
+
+            if (con.getResponseCode() != 200) {//状态码200为OK
+                throw new RuntimeException("请求url失败");
+            }
+
             OutputStream outStream=con.getOutputStream();
             outStream.write(bytes);
             outStream.flush();
@@ -66,7 +75,6 @@ public class HttpConnSoap {
             Values= inputStreamtovaluelist(inStream,methodName);
             //System.out.println(Values.size());
             return Values;
-
         }
         catch(Exception e)
         {
@@ -74,6 +82,7 @@ public class HttpConnSoap {
             return null;
         }
     }
+
     public   ArrayList<String>   inputStreamtovaluelist  (InputStream   in,String MonthsName)   throws IOException {
         StringBuffer   out   =   new   StringBuffer();
         String s1="";
@@ -121,7 +130,6 @@ public class HttpConnSoap {
                     getValueBoolean=false;
                     return   Values;
                 }
-
             }
             if (TS.lastIndexOf("/"+ifString)>=0)
             {

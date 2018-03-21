@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -13,7 +14,8 @@ namespace DBWebService
     /// <summary>
     /// Service1 的摘要说明
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    [WebService(Namespace = "http://tempuri.org/")]//公开 XML Web services 之前，请更改默认命名空间。
+    //[WebService(Namespace = "http://192.168.191.1:8086/Service1.asmx")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
@@ -22,10 +24,52 @@ namespace DBWebService
     {
         MySqlDB DB = new MySqlDB();
 
-        [WebMethod]
+        [WebMethod(Description = "HelloWorld")]
         public String HelloWorld()
         {
-            return "Hello World, 測試成功";
+            return "Hello World, 測試回调成功";
+        }
+
+        [WebMethod(Description = "测试数据库连接")]
+        public bool test()//测试连接数据库
+        {
+            string connStr = "server = 127.0.0.1;database=Laboratory;uid=sa;pwd=888888";
+
+            try
+            {
+                SqlConnection conn = new SqlConnection(connStr);
+
+                conn.Open();
+                bool b = true;
+                conn.Close();
+
+                return b;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [WebMethod(Description = "获取数据库数据测试")]
+        public DataSet Testreader()
+        {
+            //database=数据库名，这里不能用database，要用Initial Catalog=数据库名，不然连不上。
+            string connStr = "server = 127.0.0.1;Initial Catalog=Laboratory;uid=sa;pwd=888888"; 
+
+            try
+            {
+                string sqlStr = "select * from book";
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(sqlStr, new SqlConnection(connStr));
+                da.Fill(ds);
+
+                return ds;
+            }
+            catch (Exception exp)
+            {
+                return null;
+            }
         }
 
         [WebMethod(Description = "登录验证")]
@@ -46,18 +90,21 @@ namespace DBWebService
         {
             return DB.CheckPermitted(mgNO);
         }
+
+        //查询管理员
         [WebMethod(Description = "查询管理员")]
-        //查询管理员 
         public String[] SelectAdmin(String mgNO)
         {
             return DB.SelectAdmin(mgNO);
         }
+
         //添加管理员
         [WebMethod(Description = "添加管理员")]
         public Boolean insertManager(String mgNO, String permitted, String password)
         {
             return DB.insertManager(mgNO, permitted, password);
         }
+
         //   删除管理员
         [WebMethod(Description = "删除管理员")]
         public String deleteManager(String mgNO)
@@ -65,6 +112,7 @@ namespace DBWebService
             DB.deleteManager(mgNO);
             return "1";
         }
+
         //查询管理员密码 
         [WebMethod(Description = "查询管理员密码")]
         public String selectAdminPassword(String mgNo)
@@ -80,6 +128,7 @@ namespace DBWebService
             DB.insertBook(isbn, BookNo, BookName, Author, Publishment, BuyTime, Borrowed, Ordered, instroduction);
             return "1";
         }
+
         //删除图书信息
         [WebMethod(Description = "删除图书信息")]
         public String deleteBook(String bookNO)
@@ -102,6 +151,7 @@ namespace DBWebService
 
             return sql;
         }
+
         //修改管理员密码
         [WebMethod(Description = "修改管理员密码")]
         public String updateManager(String mgNo, String password)
@@ -158,6 +208,7 @@ namespace DBWebService
             }
 
         }
+
         //查看超期天数信息
         [WebMethod(Description = "查看超期天数信息")]
         public int selectfee(String StuNO)
@@ -193,6 +244,7 @@ namespace DBWebService
             DB.orderbook(bookNo, StuNo);
             return "1";
         }
+
         //借阅图书
         [WebMethod(Description = "借阅图书")]
         public String borrowbook(String bookNo, String StuNo)
@@ -211,12 +263,14 @@ namespace DBWebService
         {
             return DB.selectfeeinformation(StuNO).ToArray();
         }
+
         //得到挂失图书的信息表中的记录的数量
         [WebMethod(Description = "得到挂失图书的信息表中的记录的数量")]
         public int getMaxGSBH(String VVV)
         {
             return DB.getMaxGSBH();
         }
+
         //执行没有返回值的插入语句的方法
         [WebMethod(Description = "执行没有返回值的插入语句的方法")]
         public String update(String sql)
@@ -224,60 +278,70 @@ namespace DBWebService
             DB.update(sql);
             return "1";
         }
+
         //已知书名，得到这个书籍的基本信息
         [WebMethod(Description = "已知书名，得到这个书籍的基本信息")]
         public String[] selectAllfrombook(String BookName)
         {
             return DB.selectAllfrombook(BookName).ToArray();
         }
+
         //通过书号得到书的基本信息
         [WebMethod(Description = "通过书号得到书的基本信息")]
         public String[] selectbookinformationfrombookno(String bookno)
         {
             return DB.selectbookinformationfrombookno(bookno).ToArray();
         }
+
         //通过学号查询借阅数量
         [WebMethod(Description = "通过学号查询借阅数量")]
         public int selectcount(String StuNO)
         {
             return DB.selectcount(StuNO);
         }
+
         //得到同种ISBN的书籍的数量
         [WebMethod(Description = "得到同种ISBN的书籍的数量")]
         public int getNumfrombdetailedInfo(String ISBN)
         {
             return DB.getNumfrombdetailedInfo(ISBN);
         }
+
         //一个ISBN号得到同种号下的这样的书的基本信息
         [WebMethod(Description = "一个ISBN号得到同种号下的这样的书的基本信息")]
         public String[] selectISBNALlfromdetailInfo(String ISBN)
         {
             return DB.selectISBNALlfromdetailInfo(ISBN).ToArray();
         }
+
         //根据书号得到作者名
         [WebMethod(Description = "根据书号得到作者名")]
         public String getAuthor(String BookNO)
         {
             return DB.getAuthor(BookNO);
         }
+
         //根据学生ID得到学生的班级和姓名
         [WebMethod(Description = "根据学生ID得到学生的班级和姓名")]
         public String[] getClassAndsname(String StuNO)
         {
             return DB.getClassAndsname(StuNO).ToArray();
         }
+
         //通过输入图书的作者得到图书的基本信息
         [WebMethod(Description = "通过输入图书的作者得到图书的基本信息")]
         public String[] getAuthorAllfromBook(String Author)
         {
             return DB.getAuthorAllfromBook(Author).ToArray();
         }
+
         //通过出版社得到图书的基本信息
         [WebMethod(Description = "通过出版社得到图书的基本信息")]
         public String[] getPubAllfrombook(String Publishment)
         {
             return DB.getPubAllfrombook(Publishment).ToArray();
         }
+
         //通过书名和作者得到图书的基本信息
         [WebMethod(Description = "通过书名和作者得到图书的基本信息")]
         public String[] getBnAuAllfrombook(String BookName, String Author)
@@ -291,18 +355,21 @@ namespace DBWebService
         {
             return DB.getBnCbAllfrombook(BookName, Publishment).ToArray();
         }
+
         //通过作者和出版社
         [WebMethod(Description = "通过作者和出版社")]
         public String[] getAuCbAllfrombook(String Author, String Publishment)
         {
             return DB.getAuCbAllfrombook(Author, Publishment).ToArray();
         }
+
         //通过作者 书名和出版社进行查询
         [WebMethod(Description = "通过作者 书名和出版社进行查询")]
         public String[] getBnAuCbAllfrombook(String BookName, String Author, String Publishment)
         {
             return DB.getBnAuCbAllfrombook(BookName, Author, Publishment).ToArray();
         }
+
         //通过书号对ISBN和图书简介的查询
         [WebMethod(Description = "通过作者 书名和出版社进行查询")]
         public String[] getISinfromdetails(String BookNo)
@@ -342,8 +409,6 @@ namespace DBWebService
             return DB.getSomeInfo(stuno).ToArray();
 
         }
-
-
 
         //根据图书的书号得到图书的基本信息
         [WebMethod(Description = "根据图书的书号得到图书的基本信息")]

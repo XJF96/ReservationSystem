@@ -142,42 +142,45 @@ public class RootActivity extends Activity
 
     public void gotoIpView()
     {
-
         setContentView(R.layout.main);
         final Button dlu=(Button)this.findViewById(R.id.button01);
         final Button chz=(Button)this.findViewById(R.id.button02);
         final EditText yhm=(EditText)findViewById(R.id.yhm);
         final EditText pwd=(EditText)findViewById(R.id.pwd);
 
-        //登陆的按钮设置的监听
+//        //登陆的按钮设置的监听
         try {
-
             dlu.setOnClickListener(
                     new OnClickListener() {
-
                         @Override
                         public void onClick(View v) {
                             // TODO Auto-generated method stub
                             sname = yhm.getText().toString().trim();//将字符串前后空格去除
                             String spwd = pwd.getText().toString().trim();
-                            String ppwd = new DBUtil().selectPwd(sname);
-                            System.out.println("==========================AAAAAAAAA=========================");
-                            System.out.print(ppwd);
-                            if (spwd.equals(ppwd)) {
-                                goToMainMenu();
-                            } else {
-                                Toast.makeText
-                                        (
-                                                RootActivity.this,
-                                                "登陆失败",
-                                                Toast.LENGTH_SHORT
-                                        ).show();
-                            }
+                            showExitDialog01();
+//                            String ppwd = new DBUtil().selectPwd(sname);//闪退
+//                            System.out.println("==========================AAAAAAAAA=========================");
+//                            System.out.print(ppwd);
+//                            if (spwd.equals(ppwd)) {
+//                                goToMainMenu();
+//                            } else {
+//                                Toast.makeText
+//                                        (
+//                                                RootActivity.this,
+//                                                "登陆失败",
+//                                                Toast.LENGTH_SHORT
+//                                        ).show();
+//                            }
                         }
                     }
             );
         }catch (Exception e){
-            showExitDialog01();
+            //showExitDialog01();
+            System.out.println("----------");
+            throw e;
+            //e.fillInStackTrace();
+        }finally {
+
         }
 
         chz.setOnClickListener
@@ -201,7 +204,7 @@ public class RootActivity extends Activity
     // 简单消息提示框
     private void showExitDialog01(){
         new AlertDialog.Builder(this)
-                .setTitle("错误")
+                .setTitle("提示")
                 .setMessage("登录异常")
                 .setPositiveButton("确定", null)
                 .show();

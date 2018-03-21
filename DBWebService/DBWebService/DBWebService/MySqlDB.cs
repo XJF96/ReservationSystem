@@ -21,7 +21,10 @@ namespace DBWebService
         public static SqlConnection sqlCon;  //用于连接数据库
         //private String ConServerStr = @"Data Source=QIAOLEI-PC\SQLEXPRESS;AttachDbFilename=E:\Android\ReservationSystem\DB\Book.mdf;Integrated Security=True;";
         //private String ConServerStr = @"Data Source=127.0.0.1;Initial Catalog = ReservationSystem;Persist Security Info=True;User ID = sa;Password = 888888";
-        private String ConServerStr = "data source=localhost;initial catalog=ReservationSystem ;user ID=sa;password=888888";
+       // private String ConServerStr = "data source=127.0.0.1;initial catalog=ReservationSystem ;user ID=sa;password=888888";
+
+        private String ConServerStr = "server = 127.0.0.1;Initial Catalog=Laboratory;uid=sa;pwd=888888";
+
         public MySqlDB()
         {
             if (sqlCon == null)
@@ -32,7 +35,6 @@ namespace DBWebService
             }
         }
 
-
         public void Dispose()
         {
             if (sqlCon != null)
@@ -41,6 +43,7 @@ namespace DBWebService
                 sqlCon = null;
             }
         }
+
         #region 管理端函数
         //登录验证
         public String selectADPwd(String mgNo)
@@ -48,9 +51,7 @@ namespace DBWebService
             String result = "";
             try
             {
-
                 String sql = "select M_pwd from manager where M_Num='" + mgNo + "'";
-
 
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
@@ -69,7 +70,6 @@ namespace DBWebService
             }
 
             return result;
-
         }
 
         public String delete(String sql)
@@ -95,7 +95,6 @@ namespace DBWebService
             String result = null;
             try
             {
-
                 String sql = "select M_Permitted from student where M_Num='" + mgNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
@@ -114,15 +113,11 @@ namespace DBWebService
                 }
                 dr.Close();
                 command.Dispose();
-
             }
             catch (Exception e)
             {
-                //
-                
+                //               
             }
-
-
             return permitted;
         }
 
@@ -132,8 +127,6 @@ namespace DBWebService
             String[] sa = new String[3];
             try
             {
-
-
                 String sql = "select M_Permitted,M_Pwd from manager where M_Num='" + mgNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -162,7 +155,6 @@ namespace DBWebService
             Boolean falg = false;
             try
             {
-
                 String sql = "insert into manager( M_Num,M_Permitted,M_Pwd ) values ( '" + mgNO + "','" + permitted + "','" + password + "')";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 int J = 0;
@@ -176,7 +168,6 @@ namespace DBWebService
             }
 
             return falg;
-
         }
 
         //   删除管理员
@@ -200,15 +191,12 @@ namespace DBWebService
             return "1";
         }
 
-
         //查询管理员密码 
         public String selectAdminPassword(String mgNo)
         {
             String pwd = null;
             try
             {
-
-
                 String sql = "select M_Pwd from manager where M_Num='" + mgNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
@@ -219,8 +207,6 @@ namespace DBWebService
                 }
                 dr.Close();
                 command.Dispose();
-
-
             }
             catch (Exception e)
             {
@@ -228,16 +214,13 @@ namespace DBWebService
             }
 
             return pwd;
-
         }
-
 
         //修改管理员密码
         public String updateManager(String mgNo, String password)
         {
             try
             {
-
                 String sql = "update manager set M_Pwd  = '" + password + "' where M_Num = '" + mgNo.Trim() + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
@@ -256,7 +239,6 @@ namespace DBWebService
         {
             try
             {
-
                 String sql1 = "insert into book(ISBN,B_Name,B_Author,B_Publishment,B_BuyTime) values('" + isbn + "'," +
                         "'" + BookName + "','" + Author + "','" + Publishment + "','" + BuyTime + "')";
                 String sql2 = "insert into bdetailedinformation(B_Num,ISBN,Borrowed,Ordered,Introduction) values('" + BookNo + "'," +
@@ -280,7 +262,6 @@ namespace DBWebService
         {
             try
             {
-
                 String sql = "delete from bdetailedinformation where B_Num='" + bookNO + "'";
                 String sql1 = "delete from book where B_Num='" + bookNO + "'";
                 SqlCommand command1 = new SqlCommand(sql1, sqlCon);
@@ -323,7 +304,6 @@ namespace DBWebService
         //借阅图书
         public String GetBookNoISBN(String bookNo)
         {
-
             String sql = "select ISBN from bdetailedinformation  Where B_Num = '" + bookNo + "'";
             SqlCommand command = new SqlCommand(sql, sqlCon);
             SqlDataReader dr = command.ExecuteReader();
@@ -335,18 +315,15 @@ namespace DBWebService
             }
             dr.Close();
             command.Dispose();
+
             return sql;
-
-
         }
-
 
         //添加学生
         public String addStu(String StuNO, String StuName, String StuAge, String StuSex, String Class, String Department, String Tel, String Permitted, String Password)
         {
             try
             {
-
                 String sql = "insert into student(S_Num,S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Permitted,S_Pwd) values('" + StuNO + "','" + StuName + "','" + StuAge + "','" + StuSex + "','" + Class + "','" + Department + "','" + Tel + "','" + Permitted + "','" + Password + "')";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
@@ -356,6 +333,7 @@ namespace DBWebService
             {
 
             }
+
             return "1";
         }
 
@@ -365,8 +343,7 @@ namespace DBWebService
             String[] ss = new String[8];
             try
             {
-
-                String sql = "select S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Permitted,S_Pwd from student where S_Num='" + StuNO + "'";
+                String sql = "select S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Permitted,S_Pwd from student where S_Num='" + StuNO + "'";             
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
 
@@ -380,7 +357,6 @@ namespace DBWebService
                     ss[5] = dr[5].ToString();
                     ss[6] = dr[6].ToString();
                     ss[7] = dr[7].ToString();
-
                 }
                 dr.Close();
                 command.Dispose();
@@ -390,8 +366,8 @@ namespace DBWebService
             {
                 //
             }
-            return ss;
 
+            return ss;
         }
 
         //删除学生信息
@@ -399,7 +375,6 @@ namespace DBWebService
         {
             try
             {
-
                 String sql = "delete from student where S_Num='" + Sno + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
@@ -418,7 +393,6 @@ namespace DBWebService
         {
             try
             {
-
                 String sql = "update student set S_Num='" + StuNO + "',S_Name='" + StuName + "',S_Age='" + StuAge + "',S_Sex='" + StuSex + "',S_Class='" + Class + "',S_Department='" + Department + "',S_Phone='" + Tel + "',S_Permitted='" + Permitted + "',S_Pwd='" + Password + "'   where  S_Num='" + StuNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
@@ -438,7 +412,6 @@ namespace DBWebService
             String returntime = "";
             try
             {
-
                 String sqlr = "select ReturnTime from record where S_Num = '" + sno + "' and B_Num = '" + bno + "'";
                 SqlCommand commandr = new SqlCommand(sqlr, sqlCon);
                 SqlDataReader rrs = commandr.ExecuteReader();
@@ -567,7 +540,6 @@ namespace DBWebService
         {
             try
             {
-
                 String sql = "update Overtime set overtime='0' where S_Num='" + StuNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 feeflag = true;
@@ -586,7 +558,6 @@ namespace DBWebService
             String s = null;
             try
             {
-
                 String sql = "select Borrowed from record where B_Num='" + bookNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -609,7 +580,6 @@ namespace DBWebService
         {
             try
             {
-
                 String sql = "update record set ordered=‘是’,S_Num='" + StuNo + "' where B_Num='" + bookNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
@@ -625,7 +595,6 @@ namespace DBWebService
         //借阅图书
         public String borrowbook(String bookNo, String StuNo)
         {
-
             String day = DateTime.Now.ToString("yyyy-MM-dd");
             //try
             //{
@@ -645,7 +614,6 @@ namespace DBWebService
 
         public List<String> selectbookfromISBN(String ISBN)
         {
-
             List<String> v = new List<String>();
 
             try
@@ -688,8 +656,6 @@ namespace DBWebService
 
             try
             {
-
-
                 String sql = "select B_Num,B_Name,Overtime from overtime where S_Num='" + StuNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -707,11 +673,7 @@ namespace DBWebService
             catch (Exception e)
             {
                 //
-
             }
-
-
-
             return v;
 
         }
@@ -722,7 +684,6 @@ namespace DBWebService
             int result = 0;
             try
             {
-
                 String sql = "select MAX(GSBH) from losebook";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -763,7 +724,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Name like '%" + BookName + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -776,7 +736,6 @@ namespace DBWebService
                 }
                 rs.Close();
                 command.Dispose();
-
             }
             catch (Exception e)
             {
@@ -792,7 +751,6 @@ namespace DBWebService
             String[] info = new String[6];
             try
             {
-
                 String sql = "select book.B_Name,book.B_Author,book.B_Publishment,bdetailedinformation.Borrowed,bdetailedinformation.Ordered from book,bdetailedinformation where book.ISBN = bdetailedinformation.ISBN and bdetailedinformation.B_Num='" + bookno + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -821,7 +779,6 @@ namespace DBWebService
             int a = 0;
             try
             {
-
                 String sql = "select count(B_Num) from record where S_Num='" + StuNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -864,7 +821,6 @@ namespace DBWebService
 
         }
 
-
         //一个ISBN号得到同种号下的这样的书的基本信息
         public List<String> selectISBNALlfromdetailInfo(String ISBN)
         {
@@ -873,7 +829,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
                 String sql = "select B_Num,Borrowed,Ordered,Introduction from bdetailedinformation where ISBN='" + ISBN + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -901,7 +856,6 @@ namespace DBWebService
             String result = null;
             try
             {
-
                 String sql = "select B_Author from book where B_Num='" + BookNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -926,14 +880,11 @@ namespace DBWebService
             List<String> result = new List<String>();
             try
             {
-
                 String sql = "select S_Name,S_Class,S_Num from student where S_Num='" + StuNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
                 while (rs.Read())
                 {//将结果集信息添加到返回向量中
-
-
                     String[] middle = new String[3];
                     middle[0] = rs[0].ToString();
                     middle[1] = rs[1].ToString();
@@ -950,9 +901,8 @@ namespace DBWebService
             {
 
             }
+
             return result;
-
-
         }
         //通过输入图书的作者得到图书的基本信息
         public List<String> getAuthorAllfromBook(String Author)
@@ -961,7 +911,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Author like '%" + Author + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -989,7 +938,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Publishment like '%" + Publishment + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1018,7 +966,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Name like '%" + BookName + "%' and B_Author like '%" + Author + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1047,7 +994,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Name like '%" + BookName + "%' and B_Publishment like '%" + Publishment + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1074,7 +1020,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Author like '%" + Author + "%' and B_Publishment like '%" + Publishment + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1102,7 +1047,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where B_Name like '%" + BookName + "%' and B_Author like '%" + Author + "%' and B_Publishment like '%" + Publishment + "%'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1130,7 +1074,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
                 String sql = "select ISBN,Borrowed,Ordered,Introduction from bdetailedinformation where B_Num='" + BookNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1160,8 +1103,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
-
                 String sql = "select ISBN,B_Name,B_Author,B_Publishment from book where ISBN ='" + isbn + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1189,8 +1130,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印   		
-
-
                 String sql = "select B_Num,S_Name,S_Num,B_Author from orderbook where S_Num ='" + stuNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1217,8 +1156,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
-
                 String sql = "select count(B_Num) from orderbook where B_Num='" + stuno + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1230,13 +1167,11 @@ namespace DBWebService
                 rs.Close();
                 command.Dispose();
             }
-
             catch (Exception e)
             {
 
             }
             return num;
-
         }
 
         //根据学生的学号得到图书的ISBN，BookNO,BookName,Author,Publishment,借阅时间，归还时间
@@ -1246,7 +1181,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
                 String sql = " SELECT record.B_Num, record.BorrowTime, record.ReturnTime, book.ISBN, book.B_Name, book.B_Author, book.B_Publishment FROM record INNER JOIN  bdetailedinformation ON record.B_Num = bdetailedinformation.B_Num INNER JOIN    book ON bdetailedinformation.ISBN = book.ISBN WHERE (record.S_Num = '" + stuno + "')";
                 //String sql="select record.B_Num,record.BorrowTime,record.ReturnTime,book.ISBN,book.B_Name,book.B_Author,book.B_Publishment from record,book,bdetailedinformation where record.B_Num=bdetailedinformation.B_Num AND bdetailedinformation.ISBN=book.ISBN And record.S_Num='"+stuno+"'";
                 int num = 0;
@@ -1264,21 +1198,17 @@ namespace DBWebService
                     result.Add(rs[6].ToString());
                     num++;
                     // return result;
-
                 }
                 rs.Close();
                 command.Dispose();
             }
-
             catch (Exception e)
             {
 
             }
+
             return result.ToArray();
-
         }
-
-
 
         //根据图书的书号得到图书的基本信息
         public List<String> getBNSomeInfo(String BookNO)
@@ -1287,8 +1217,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
-
                 String sql = "select record.B_Num,record.BorrowTime,record.ReturnTime,book.ISBN,book.B_Name,book.B_Author,book.B_Publishment from record,book,bdetailedinformation where record.B_Num=bdetailedinformation.B_Num AND bdetailedinformation.ISBN=book.ISBN And record.B_Num='" + BookNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1306,13 +1234,12 @@ namespace DBWebService
                 rs.Close();
                 command.Dispose();
             }
-
             catch (Exception e)
             {
 
             }
-            return result;
 
+            return result;
         }
 
         //根据预约图书书号得到图书基本信息
@@ -1322,8 +1249,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
-
                 String sql = "select orderbook.B_Num,book.ISBN,book.B_Name,book.B_Author,book.B_Publishment,bdetailedinformation.Borrowed from orderreport,book,bdetailedinformation where orderbook.B_Num=bdetailedinformation.B_Num AND bdetailedinformation.ISBN=book.ISBN And orderbook.B_Num='" + BookNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1340,18 +1265,15 @@ namespace DBWebService
                 rs.Close();
                 command.Dispose();
             }
-
             catch (Exception e)
             {
-
             }
-            return result;
 
+            return result;
         }
 
         String GetBookName(string BNUM)
         {
-
             //测试在后台打印    		
 
             String S1 = "555";
@@ -1363,7 +1285,6 @@ namespace DBWebService
             {//将结果集信息添加到返回向量中								
                 //String[] middle=new String[6];
                 S1 = rs[0].ToString();
-
             }
             rs.Close();
             command.Dispose();
@@ -1378,8 +1299,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
-
                 String sql = "select S_Num,S_Class,S_Name from student where S_Num='" + stuno + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1393,13 +1312,10 @@ namespace DBWebService
                 rs.Close();
                 command.Dispose();
             }
-
             catch (Exception e)
             {
-
             }
             return result;
-
         }
 
         //通过书号得到归还时间
@@ -1409,8 +1325,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
-
                 String sql = "select ReturnTime from record where B_Num='" + BookNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1422,15 +1336,12 @@ namespace DBWebService
                 command.Dispose();
                 ;
             }
-
             catch (Exception e)
             {
 
             }
             return result;
-
         }
-
 
         //通过书号判断时候是再借状态
         public String getifBorrow(String BookNO)
@@ -1439,8 +1350,6 @@ namespace DBWebService
             try
             {
                 //测试在后台打印    		
-
-
                 String sql = "select ReturnTime from record where B_Num='" + BookNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1451,13 +1360,11 @@ namespace DBWebService
                 rs.Close();
                 command.Dispose();
             }
-
             catch (Exception e)
             {
 
             }
             return result;
-
         }
 
         //通过书号查询预约人
@@ -1466,7 +1373,6 @@ namespace DBWebService
             String stu = null;
             try
             {
-
                 stu = "   ";
                 String sql = "select S_Num from orderbook where B_Num='" + BookNO + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
@@ -1484,6 +1390,7 @@ namespace DBWebService
             }
             return stu;
         }
+
         //通过isbn获得书号
         public String getBookNumber()
         {
@@ -1492,8 +1399,6 @@ namespace DBWebService
             String a = null;
             try
             {
-
-
                 String sql = "select count(B_Num) from bdetailedinformation";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1514,7 +1419,6 @@ namespace DBWebService
         }
         #endregion
 
-
         //以下部分是学生的相关数据库函数
         # region 学生部分函数
         //知道学生的学号得到他的密码
@@ -1523,8 +1427,6 @@ namespace DBWebService
             String result = null;
             try
             {
-
-
                 String sql = "select S_Pwd from student where S_Num='" + S_Num + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
@@ -1542,14 +1444,12 @@ namespace DBWebService
             return result;
         }
 
-
         //得到挂失图书的信息表中的记录的数量
         public int getMaxLBNO()
         {
             int result = 0;
             try
             {
-
 
                 String sql = "select MAX(GSBH) from losebook";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
@@ -1566,11 +1466,8 @@ namespace DBWebService
 
             }
             return result;
-
         }
 
-
         #endregion
-
     }
 }

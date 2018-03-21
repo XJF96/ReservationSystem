@@ -13,6 +13,7 @@ public class DBUtil {
     ArrayList<String> brrayList=new ArrayList<String>();
     ArrayList<String> crrayList=new ArrayList<String>();
     HttpConnSoap Soaptest=new HttpConnSoap();
+
     public static Connection getConnection()
     {
         Connection con=null;
@@ -41,9 +42,7 @@ public class DBUtil {
         crrayList=Soaptest.GetWebServre("selectPwd", arrayList, brrayList);
         result= crrayList.get(0);
         return result;
-
     }
-
 
     //得到挂失图书的信息表中的记录的数量
     public  int getMaxLBNO()
@@ -57,7 +56,6 @@ public class DBUtil {
         crrayList=Soaptest.GetWebServre("getMaxLBNO", arrayList, brrayList);
         result=Integer.parseInt(crrayList.get(0));
         return result;
-
     }
     //执行没有返回值的插入语句的方法
     public  void update(String sql)
@@ -71,8 +69,6 @@ public class DBUtil {
 
         crrayList=Soaptest.GetWebServre("update", arrayList, brrayList);
     }
-
-
 
     //已知书名，得到这个书籍的基本信息
     public Vector<String> selectAllfrombook(String BookName)
@@ -88,7 +84,6 @@ public class DBUtil {
         {
             v.add(s);
         }
-
         return v;
     }
 
@@ -124,7 +119,6 @@ public class DBUtil {
         return v;
     }
 
-
     //根据书号得到作者名
     public  String getAuthor(String BookNO)
     {
@@ -139,7 +133,6 @@ public class DBUtil {
         return result;
 
     }
-
 
     //通过输入图书的作者得到图书的基本信息
     public  Vector<String> getAuthorAllfromBook(String Author)
@@ -158,7 +151,6 @@ public class DBUtil {
         return v;
     }
 
-
     //通过出版社得到图书的基本信息
     public  Vector<String> getPubAllfrombook(String Publishment)
     {
@@ -174,7 +166,6 @@ public class DBUtil {
             v.add(s);
         }
         return v;
-
     }
 
 
@@ -331,6 +322,7 @@ public class DBUtil {
         }
         return v;
     }
+
     //根据预约图书信息表得到某同学的预约图书信息
     public  int getNumfromborderreport(String stuno)
     {
@@ -361,10 +353,7 @@ public class DBUtil {
             result.add(s);
         }
         return result;
-
     }
-
-
 
     //根据图书的书号得到图书的基本信息
     public  Vector<String> getBNSomeInfo(String BookNO)
@@ -407,9 +396,7 @@ public class DBUtil {
         {
             result.add(s);
         }
-
         return result;
-
     }
 
     //根据预约图书书号得到图书基本信息
@@ -427,7 +414,6 @@ public class DBUtil {
             result.add(s);
         }
         return result;
-
     }
 
     //通过学生的ID得到学生的班级，姓名，学号
@@ -445,7 +431,6 @@ public class DBUtil {
         result[2]=crrayList.get(2);
 
         return result;
-
     }
 
     //通过书号得到归还时间
@@ -460,7 +445,6 @@ public class DBUtil {
         crrayList=Soaptest.GetWebServre("gettimefromrecord", arrayList, brrayList);
         result=crrayList.get(0);
         return result;
-
     }
 
 
@@ -476,6 +460,5 @@ public class DBUtil {
         crrayList=Soaptest.GetWebServre("getifBorrow", arrayList, brrayList);
         result=crrayList.get(0);
         return result;
-
     }
 }
