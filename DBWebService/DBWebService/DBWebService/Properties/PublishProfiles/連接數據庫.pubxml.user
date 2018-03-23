@@ -11,13 +11,13 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/DBWebService.dll">
-      <publishTime>03/06/2018 19:24:25</publishTime>
+      <publishTime>03/23/2018 16:09:15</publishTime>
     </File>
     <File Include="Service1.asmx">
       <publishTime>03/06/2018 16:00:18</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/06/2018 19:37:51</publishTime>
+      <publishTime>03/23/2018 16:09:17</publishTime>
     </File>
   </ItemGroup>
 </Project>

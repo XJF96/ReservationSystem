@@ -31,24 +31,9 @@ namespace DBWebService
         }
 
         [WebMethod(Description = "测试数据库连接")]
-        public bool test()//测试连接数据库
+        public bool Test()//测试连接数据库
         {
-            string connStr = "server = 127.0.0.1;database=Laboratory;uid=sa;pwd=888888";
-
-            try
-            {
-                SqlConnection conn = new SqlConnection(connStr);
-
-                conn.Open();
-                bool b = true;
-                conn.Close();
-
-                return b;
-            }
-            catch
-            {
-                return false;
-            }
+            return DB.test();
         }
 
         [WebMethod(Description = "获取数据库数据测试")]
@@ -56,12 +41,14 @@ namespace DBWebService
         {
             //database=数据库名，这里不能用database，要用Initial Catalog=数据库名，不然连不上。
             string connStr = "server = 127.0.0.1;Initial Catalog=Laboratory;uid=sa;pwd=888888"; 
+            string sqlStr = "select * from book";
 
             try
-            {
-                string sqlStr = "select * from book";
+            {       
                 DataSet ds = new DataSet();
-                SqlDataAdapter da = new SqlDataAdapter(sqlStr, new SqlConnection(connStr));
+                SqlConnection sqlcon = new SqlConnection(connStr);
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlStr, sqlcon);
                 da.Fill(ds);
 
                 return ds;
@@ -73,7 +60,7 @@ namespace DBWebService
         }
 
         [WebMethod(Description = "登录验证")]
-        public String selectADPwd(String mgNo)
+        public String[] selectADPwd(String mgNo)
         {
             return DB.selectADPwd(mgNo);
         }
@@ -107,7 +94,7 @@ namespace DBWebService
 
         //   删除管理员
         [WebMethod(Description = "删除管理员")]
-        public String deleteManager(String mgNO)
+        public string deleteManager(String mgNO)
         {
             DB.deleteManager(mgNO);
             return "1";

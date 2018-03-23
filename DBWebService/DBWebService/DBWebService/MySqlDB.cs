@@ -13,6 +13,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.Data.Sql;
 
 namespace DBWebService
 {
@@ -29,13 +30,15 @@ namespace DBWebService
         {
             if (sqlCon == null)
             {
-                sqlCon = new SqlConnection();
-                sqlCon.ConnectionString = ConServerStr;
+//                sqlCon = new SqlConnection();
+//                sqlCon.ConnectionString = ConServerStr;//旧
+
+                sqlCon = new SqlConnection(ConServerStr);
                 sqlCon.Open();
             }
         }
 
-        public void Dispose()
+        public void Dispose()//
         {
             if (sqlCon != null)
             {
@@ -45,31 +48,57 @@ namespace DBWebService
         }
 
         #region 管理端函数
-        //登录验证
-        public String selectADPwd(String mgNo)
+
+        public bool test()//测试连接数据库
         {
-            String result = "";
+            //string connStr = "server = 127.0.0.1;database=Laboratory;uid=sa;pwd=888888";
             try
             {
-                String sql = "select M_pwd from manager where M_Num='" + mgNo + "'";
+                SqlConnection conn = new SqlConnection(ConServerStr);
 
+                conn.Open();
+                bool b = true;
+                conn.Close();
+
+                return b;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //登录验证,只是查密码？？？????????????????????????????????????
+        public String[] selectADPwd(String mgNo)
+        {
+           // String result = "";
+            String[] result = new String[3];
+            try
+            {
+                String sql = "select M_Pwd,M_Permitted from manager where M_Num='" + mgNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    //result = "M_pwd ";
-                    result = Convert.ToString(dr[0]);
+                    //result = "m_pwd ";
+                   //强制转换为string
+                   //result = Convert.ToString(dr[0]);
+
+                   result[0] = dr[0].ToString();
+                   result[1] = dr[1].ToString();
+                   result[2] = mgNo;
                 }
                 dr.Close();
                 command.Dispose();
             }
             catch (Exception e)
             {
-                return result;
+                //return result;
             }
 
             return result;
+
         }
 
         public String delete(String sql)
@@ -93,6 +122,9 @@ namespace DBWebService
         {
             int permitted = 0;
             String result = null;
+
+            //string[] result=new string[1];
+
             try
             {
                 String sql = "select M_Permitted from student where M_Num='" + mgNO + "'";
@@ -101,14 +133,17 @@ namespace DBWebService
 
                 while (dr.Read())
                 {
-                    result = Convert.ToString(dr[0]);
-                    if (result.Equals("普通"))
+                    result = Convert.ToString(dr);
+
+                    //result[0] = dr[0].ToString();
+
+                    if (result[0].Equals("普通"))
                     {
-                        permitted = 1;
+                        permitted = 111;
                     }
-                    else if (result.Equals("高级"))
+                    else if (result[0].Equals("VIP"))
                     {
-                        permitted = 0;
+                        permitted = 000;
                     }
                 }
                 dr.Close();
@@ -118,10 +153,10 @@ namespace DBWebService
             {
                 //               
             }
-            return permitted;
+            return permitted ;
         }
 
-        //查询管理员 
+        //查询管理员 YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
         public String[] SelectAdmin(String mgNO)
         {
             String[] sa = new String[3];
@@ -133,7 +168,6 @@ namespace DBWebService
 
                 while (rs.Read())
                 {
-
                     sa[0] = rs[0].ToString();
                     sa[1] = rs[1].ToString();
                     sa[2] = mgNO;
@@ -149,7 +183,7 @@ namespace DBWebService
             return sa;
         }
 
-        //添加管理员
+        //添加管理员 YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
         public Boolean insertManager(String mgNO, String permitted, String password)
         {
             Boolean falg = false;
@@ -170,9 +204,11 @@ namespace DBWebService
             return falg;
         }
 
-        //   删除管理员
-        public String deleteManager(String mgNO)
+        //   删除管理员  ????????????????????????????????????????????????????????????????????
+        public string deleteManager(String mgNO)
         {
+            Boolean falg = false;
+
             try
             {
                 String sql = "delete from manager where M_Num='" + mgNO + "'";
@@ -182,11 +218,11 @@ namespace DBWebService
                 J = command.ExecuteNonQuery();
 
                 command.Dispose();
-
+                falg = true;
             }
             catch (Exception e)
             {
-
+                falg = false;
             }
             return "1";
         }
@@ -234,7 +270,7 @@ namespace DBWebService
             return "1";
         }
 
-        //图书入库
+        //图书入库    yyyyyyyyyyyyyyyyyyyyyy
         public String insertBook(String isbn, String BookNo, String BookName, String Author, String Publishment, String BuyTime, String Borrowed, String Ordered, String instroduction)
         {
             try
@@ -257,7 +293,7 @@ namespace DBWebService
             return "1";
         }
 
-        //删除图书信息
+        //删除图书信息   
         public String deleteBook(String bookNO)
         {
             try
@@ -716,7 +752,7 @@ namespace DBWebService
             return "1";
         }
 
-        //已知书名，得到这个书籍的基本信息
+        //已知书名，得到这个书籍的基本信息  yyyyyyyyyyyyy
         public List<String> selectAllfrombook(String BookName)
         {
             List<String> v = new List<String>();
@@ -745,7 +781,7 @@ namespace DBWebService
             return v;
         }
 
-        //通过书号得到书的基本信息
+        //通过书号得到书的基本信息  yyyyyyyyyyyyyy
         public String[] selectbookinformationfrombookno(String bookno)
         {
             String[] info = new String[6];
