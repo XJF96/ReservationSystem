@@ -40,7 +40,7 @@ public class DBUtil {
         arrayList.add("S_Num");
         brrayList.add(S_Num);
         crrayList=Soaptest.GetWebServre("selectPwd", arrayList, brrayList);
-        result= crrayList.get(0);
+        result= crrayList.get(0);//得到第0+1个元素
         return result;
     }
 

@@ -26,6 +26,7 @@ public class MainMenuView extends SurfaceView implements SurfaceHolder.Callback{
     Bitmap logout;
     Bitmap about;
     Bitmap help;
+
     public MainMenuView(RootActivity activity) {//
         super(activity);
         this.activity=activity;

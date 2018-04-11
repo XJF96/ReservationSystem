@@ -157,20 +157,30 @@ public class RootActivity extends Activity
                             // TODO Auto-generated method stub
                             sname = yhm.getText().toString().trim();//将字符串前后空格去除
                             String spwd = pwd.getText().toString().trim();
-                            showExitDialog01();
-//                            String ppwd = new DBUtil().selectPwd(sname);//闪退
-//                            System.out.println("==========================AAAAAAAAA=========================");
-//                            System.out.print(ppwd);
-//                            if (spwd.equals(ppwd)) {
-//                                goToMainMenu();
-//                            } else {
-//                                Toast.makeText
-//                                        (
-//                                                RootActivity.this,
-//                                                "登陆失败",
-//                                                Toast.LENGTH_SHORT
-//                                        ).show();
-//                            }
+ //                           showExitDialog01();
+//                            String ppwd = new DBUtil().selectPwd(sname);//获取密码，闪退，跳转不了
+                            new DBUtil();//可以？？？
+                            String ppwd ="001";
+                            System.out.println("==========================AAAAAAAAA=========================");
+                            System.out.print(ppwd);
+                            if (spwd.equals(ppwd)) {
+                                //下面复制上来
+                                Toast.makeText
+                                        (
+                                                RootActivity.this,
+                                                "登陆成功",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+
+                                goToMainMenu();
+                            } else {
+                                Toast.makeText
+                                        (
+                                                RootActivity.this,
+                                                "登陆失败",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                            }
                         }
                     }
             );
@@ -344,11 +354,11 @@ public class RootActivity extends Activity
         );
         curr=WhichView.LOSE_INFO_VIEW;
     }
+
     //挂失界面的详细界面
     public void gotolosedetailsView()
     {
         setContentView(R.layout.lose_details_info);
-
 
         final TextView tv1=(TextView)RootActivity.this.findViewById(R.id.lose_detailTextView02);
         final TextView tv2=(TextView)RootActivity.this.findViewById(R.id.lose_detailTextView04);
@@ -364,7 +374,6 @@ public class RootActivity extends Activity
         tv5.setText(loseInfo1.get(6));
         tv6.setText(loseInfo1.get(1));
         tv7.setText(loseInfo1.get(2));
-
 
 
         //确定挂失按钮的监听
@@ -394,6 +403,7 @@ public class RootActivity extends Activity
 
                 }
         );
+
         //后退按钮的设置监听
         ImageButton imageb=(ImageButton)RootActivity.this.findViewById(R.id.details_ImageButtonlose);
         imageb.setOnClickListener(
@@ -413,6 +423,7 @@ public class RootActivity extends Activity
 
     }
 
+    //预约界面
     public void gotoyuyueView()
     {
         setContentView(R.layout.yuyue);
@@ -434,7 +445,6 @@ public class RootActivity extends Activity
                 }
         );
 
-
         orderbook.setOnClickListener(
                 new OnClickListener()
                 {
@@ -449,7 +459,7 @@ public class RootActivity extends Activity
                             Toast.makeText
                                     (
                                             RootActivity.this,
-                                            "书号为空，请输入书号！",
+                                            "实验室书号为空，请输入实验室书号！",
                                             Toast.LENGTH_SHORT
                                     ).show();
                         }
@@ -463,7 +473,7 @@ public class RootActivity extends Activity
                                 Toast.makeText
                                         (
                                                 RootActivity.this,
-                                                "对不起，你要预约的资料不存在！",
+                                                "对不起，你要预约的教室资料不存在！",
                                                 Toast.LENGTH_SHORT
                                         ).show();
                             }
@@ -472,7 +482,7 @@ public class RootActivity extends Activity
                                 Toast.makeText
                                         (
                                                 RootActivity.this,
-                                                "该书已被预约，请选择其他书号！",
+                                                "该教室已被预约，请选择其他教室书号！",
                                                 Toast.LENGTH_SHORT
                                         ).show();
                             }
