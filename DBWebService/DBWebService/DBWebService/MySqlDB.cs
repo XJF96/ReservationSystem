@@ -14,6 +14,9 @@ using System.Xml.Linq;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Data.Sql;
+using System.Text;
+using System.Runtime.Serialization;
+
 
 namespace DBWebService
 {
@@ -47,6 +50,65 @@ namespace DBWebService
             }
         }
 
+
+        public class Product
+        {
+            private string M_Num;
+            private string M_Permitted;
+            private string M_Pwd;
+            public Product()
+            {
+            }
+
+            public Product(string Num, string Permitted, string Pwd)
+            {
+                this.M_Num = Num;
+                this.M_Permitted = Permitted;
+                this.M_Pwd = Pwd;
+            }
+            public string Num
+            {
+                get { return M_Num; }
+                set { this.M_Num = value; }
+            }
+            public string Permitted
+            {
+                get { return M_Permitted; }
+                set { this.M_Permitted = value; }
+            }
+
+            public string Pwd
+            {
+                get { return M_Pwd; }
+                set { this.M_Pwd = value; }
+            }
+
+        }
+        //查询管理员 YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+        public List<Product> SelectAdminJson(String mgNO)
+        {
+            List<Product> list = new List<Product>();
+            try
+            {
+                String sql = "select M_Permitted,M_Pwd from manager where M_Num='" + mgNO + "'";
+                SqlCommand command = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    list.Add(new Product(reader.GetString(0), reader.GetString(1),reader.GetString(2)));//
+                }
+                reader.Close();
+                command.Dispose();
+            }
+            catch (Exception e)
+            {
+                //
+            }
+
+            return list;
+        }
+
         #region 管理端函数
 
         public bool test()//测试连接数据库
@@ -67,27 +129,239 @@ namespace DBWebService
                 return false;
             }
         }
+       
 
-        //登录验证,只是查密码？？？????????????????????????????????????
-        public String[] selectADPwd(String mgNo)
+        /// <returns>所有管理员信息</returns>  
+        public string selectAllCargoInforaaa()
         {
-           // String result = "";
-            String[] result = new String[3];
+            String jb;
+            StringBuilder jsonBuilder = new StringBuilder();
+
             try
             {
-                String sql = "select M_Pwd,M_Permitted from manager where M_Num='" + mgNo + "'";
+                string sql = "select * from manager";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                
+                jsonBuilder.Append("{\"");
+                jsonBuilder.Append("Data");
+                jsonBuilder.Append("\":[");
+
+                while (reader.Read())
+                {
+                    jsonBuilder.Append("{");
+
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append("M_Num");
+                    jsonBuilder.Append("\":\"");                                       
+                    jsonBuilder.Append(reader[0].ToString());
+                    jsonBuilder.Append("\",");
+                    
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append("M_Permitted");
+                    jsonBuilder.Append("\":\"");
+                    jsonBuilder.Append(reader[1].ToString());
+                    jsonBuilder.Append("\",");
+
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append("M_Pwd");
+                    jsonBuilder.Append("\":\"");
+                    jsonBuilder.Append(reader[2].ToString());
+                    jsonBuilder.Append("\",");
+
+                    jsonBuilder.Append("},");
+                }
+
+                jsonBuilder.Append("]");
+                jsonBuilder.Append("}");
+
+                
+                reader.Close();
+                cmd.Dispose();
+
+            }
+            catch (Exception)
+            {
+                 
+            }
+            jb = jsonBuilder.ToString();
+
+            return jb;
+        }
+
+
+        public class JsonData : ISerializable
+        {
+            #region 属性
+
+            /// <summary>
+            /// 表示业务是否正常
+            /// </summary>
+            public bool IsSuccess { get; set; }
+
+            /// <summary>
+            /// 返回消息,成功的消息和错误消息都在这里
+            /// </summary>
+            public string Message { get; set; }
+
+            /// <summary>
+            /// 用于返回复杂结果
+            /// </summary>
+            public object Content { get; set; }
+            #endregion
+
+            #region 方法
+            /// <summary>
+            /// 自定义序列化方法
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                // 运用info对象来添加你所需要序列化的项
+                info.AddValue("IsSuccess", IsSuccess);
+                info.AddValue("Message", Message);
+                if (Content != null)
+                {
+                    info.AddValue("Content", Convert.ChangeType(Content, Content.GetType()));
+                }
+                else
+                {
+                    info.AddValue("Content", null);
+                }
+            }
+
+            public JsonData() { }
+            #endregion
+        }
+
+        public String selectAdminPasswordJson(String mgNo)
+        {
+            String pwd = null;
+
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{\"");
+            jsonBuilder.Append("Data");
+            jsonBuilder.Append("\":[");
+            try
+            {
+                String sql = "select M_Pwd from manager where M_Num='" + mgNo + "'";
+                SqlCommand command = new SqlCommand(sql, sqlCon);
+                SqlDataReader dr = command.ExecuteReader();
+                jsonBuilder.Append("{");
+
+                jsonBuilder.Append("\"");
+                jsonBuilder.Append("M_Num");
+                jsonBuilder.Append("\":\"");
+                
+
+                while (dr.Read())
+                {             
+                    jsonBuilder.Append(dr[0].ToString());
+                }
+                jsonBuilder.Append("\"");
+                jsonBuilder.Append("}");
+                jsonBuilder.Append("]");
+                jsonBuilder.Append("}");
+
+                dr.Close();
+                command.Dispose();
+            }
+            catch (Exception e)
+            {
+                //
+            }
+
+            return jsonBuilder.ToString();
+        }
+
+        /// <returns>所有管理员信息</returns>  
+        public List<string> selectAllCargoInfor()
+        {
+            List<string> list = new List<string>();
+
+            try
+            {
+                string sql = "select * from manager";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    //将结果集信息添加到返回向量中  
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                }
+
+                reader.Close();
+                cmd.Dispose();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return list;
+        }
+
+
+        /// <returns>所有学生信息</returns>  
+        public List<string> selectAllStudent()
+        {
+            List<string> list = new List<string>();
+
+            try
+            {
+                string sql = "select * from student";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    //将结果集信息添加到返回向量中  
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                    list.Add(reader[3].ToString());
+                    list.Add(reader[4].ToString());
+                    list.Add(reader[5].ToString());
+                    list.Add(reader[6].ToString());
+                    list.Add(reader[7].ToString());
+                }
+
+                reader.Close();
+                cmd.Dispose();
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return list;
+        }  
+
+
+        //登录验证,只是查密码
+        public String selectADPwd(String mgNo)
+        {
+           String result = "";
+
+            try
+            {
+                String sql = "select M_Pwd from manager where M_Num='" + mgNo + "'";
+                //String sql = "select S_Pwd from student where S_Num='" + mgNo + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    //result = "m_pwd ";
+                   //result = "m_pwd ";
                    //强制转换为string
                    //result = Convert.ToString(dr[0]);
+                    result = dr[0].ToString();
 
-                   result[0] = dr[0].ToString();
-                   result[1] = dr[1].ToString();
-                   result[2] = mgNo;
                 }
                 dr.Close();
                 command.Dispose();
@@ -270,7 +544,7 @@ namespace DBWebService
             return "1";
         }
 
-        //图书入库    yyyyyyyyyyyyyyyyyyyyyy
+        //实验室入库    yyyyyyyyyyyyyyyyyyyyyy
         public String insertBook(String isbn, String BookNo, String BookName, String Author, String Publishment, String BuyTime, String Borrowed, String Ordered, String instroduction)
         {
             try
@@ -293,7 +567,7 @@ namespace DBWebService
             return "1";
         }
 
-        //删除图书信息   
+        //删除实验室信息   
         public String deleteBook(String bookNO)
         {
             try
@@ -314,7 +588,7 @@ namespace DBWebService
             return "1";
         }
 
-        //修改图书信息
+        //修改实验室信息
         public String updateBook(String BookNo, String BookName, String Author, String Publishment, String BuyTime, String Borrowed, String Ordered, String Introduction)
         {
             try
@@ -588,7 +862,7 @@ namespace DBWebService
             }
             return "false";
         }
-        //查询借阅或预约图书
+        //查询借阅或预约实验室
         public String borrowororderbook(String bookNo)
         {
             String s = null;
@@ -611,7 +885,7 @@ namespace DBWebService
             }
             return s;
         }
-        //预约图书
+        //预约实验室
         public String orderbook(String bookNo, String StuNo)
         {
             try
@@ -628,7 +902,7 @@ namespace DBWebService
             return "1";
         }
 
-        //借阅图书
+        //借实验室
         public String borrowbook(String bookNo, String StuNo)
         {
             String day = DateTime.Now.ToString("yyyy-MM-dd");
@@ -714,7 +988,7 @@ namespace DBWebService
 
         }
 
-        //得到挂失图书的信息表中的记录的数量
+        //得到挂失报修实验室的信息表中的记录的数量
         public int getMaxGSBH()
         {
             int result = 0;
@@ -752,7 +1026,7 @@ namespace DBWebService
             return "1";
         }
 
-        //已知书名，得到这个书籍的基本信息  yyyyyyyyyyyyy
+        //已知实验室名，得到这个实验室的基本信息  yyyyyyyyyyyyy
         public List<String> selectAllfrombook(String BookName)
         {
             List<String> v = new List<String>();
@@ -781,7 +1055,7 @@ namespace DBWebService
             return v;
         }
 
-        //通过书号得到书的基本信息  yyyyyyyyyyyyyy
+        //通过实验室号得到实验室的基本信息  yyyyyyyyyyyyyy
         public String[] selectbookinformationfrombookno(String bookno)
         {
             String[] info = new String[6];
@@ -809,7 +1083,7 @@ namespace DBWebService
             return info;
         }
 
-        //通过学号查询借阅数量
+        //通过学号查询借数量
         public int selectcount(String StuNO)
         {
             int a = 0;
@@ -830,7 +1104,7 @@ namespace DBWebService
 
             return a;
         }
-        //得到同种ISBN的书籍的数量
+        //得到同种ISBN的实验室的数量
         public int getNumfrombdetailedInfo(String ISBN)
         {
             int num = 0;
@@ -857,7 +1131,7 @@ namespace DBWebService
 
         }
 
-        //一个ISBN号得到同种号下的这样的书的基本信息
+        //一个ISBN号得到同种号下的这样的实验室的基本信息
         public List<String> selectISBNALlfromdetailInfo(String ISBN)
         {
             List<String> v = new List<String>();
@@ -886,7 +1160,7 @@ namespace DBWebService
             return v;
         }
 
-        //根据书号得到作者名
+        //根据实验室号得到管理者名
         public String getAuthor(String BookNO)
         {
             String result = null;
@@ -940,7 +1214,7 @@ namespace DBWebService
 
             return result;
         }
-        //通过输入图书的作者得到图书的基本信息
+        //通过输入实验室的管理者得到实验室的基本信息
         public List<String> getAuthorAllfromBook(String Author)
         {
             List<String> v = new List<String>();
@@ -967,7 +1241,7 @@ namespace DBWebService
             }
             return v;
         }
-        //通过出版社得到图书的基本信息
+        //通过地点得到实验室的基本信息
         public List<String> getPubAllfrombook(String Publishment)
         {
             List<String> v = new List<String>();
@@ -995,7 +1269,7 @@ namespace DBWebService
             return v;
 
         }
-        //通过书名和作者得到图书的基本信息
+        //通过实验室名和管理者得到实验室的基本信息
         public List<String> getBnAuAllfrombook(String BookName, String Author)
         {
             List<String> v = new List<String>();
@@ -1023,7 +1297,7 @@ namespace DBWebService
             return v;
         }
 
-        //通过书名和出版社得到图书的基本信息
+        //通过实验室名和地点得到图书的基本信息
         public List<String> getBnCbAllfrombook(String BookName, String Publishment)
         {
             List<String> v = new List<String>();
@@ -1049,7 +1323,7 @@ namespace DBWebService
             }
             return v;
         }
-        //通过作者和出版社
+        //通过管理者和地点
         public List<String> getAuCbAllfrombook(String Author, String Publishment)
         {
             List<String> v = new List<String>();
@@ -1076,7 +1350,7 @@ namespace DBWebService
             return v;
         }
 
-        //通过作者 书名和出版社进行查询
+        //通过管理者 实验室名和地点进行查询
         public List<String> getBnAuCbAllfrombook(String BookName, String Author, String Publishment)
         {
             List<String> v = new List<String>();
@@ -1103,7 +1377,7 @@ namespace DBWebService
             return v;
         }
 
-        //通过书号对ISBN和图书简介的查询
+        //通过实验室号对ISBN和实验室简介的查询
         public List<String> getISinfromdetails(String BookNo)
         {
             List<String> v = new List<String>();
@@ -1159,7 +1433,7 @@ namespace DBWebService
             return v;
         }
 
-        //根据学生的ID得到他预约图书的基本信息
+        //根据学生的ID得到他预约实验室的基本信息
         public List<String> getBNofromOrder(String stuNo)
         {
             List<String> v = new List<String>();
@@ -1185,7 +1459,7 @@ namespace DBWebService
             }
             return v;
         }
-        //根据预约图书信息表得到某同学的预约图书信息
+        //根据预约实验室信息表得到某同学的预约实验室信息
         public int getNumfromborderreport(String stuno)
         {
             int num = 0;
@@ -1210,7 +1484,7 @@ namespace DBWebService
             return num;
         }
 
-        //根据学生的学号得到图书的ISBN，BookNO,BookName,Author,Publishment,借阅时间，归还时间
+        //根据学生的学号得到实验室的ISBN，BookNO,BookName,Author,Publishment,借阅时间，归还时间
         public String[] getSomeInfo(String stuno)
         {
             List<String> result = new List<String>();
@@ -1246,7 +1520,7 @@ namespace DBWebService
             return result.ToArray();
         }
 
-        //根据图书的书号得到图书的基本信息
+        //根据实验室号得到实验室的基本信息
         public List<String> getBNSomeInfo(String BookNO)
         {
             List<String> result = new List<String>();
@@ -1278,7 +1552,7 @@ namespace DBWebService
             return result;
         }
 
-        //根据预约图书书号得到图书基本信息
+        //根据预约实验室号得到实验室基本信息
         public List<String> getBNSomeINFO(String BookNO)
         {
             List<String> result = new List<String>();
@@ -1354,7 +1628,7 @@ namespace DBWebService
             return result;
         }
 
-        //通过书号得到归还时间
+        //通过实验室号得到归还时间
         public String gettimefromrecord(String BookNo)
         {
             String result = null;
@@ -1379,7 +1653,7 @@ namespace DBWebService
             return result;
         }
 
-        //通过书号判断时候是再借状态
+        //通过实验室号判断时候是再借状态
         public String getifBorrow(String BookNO)
         {
             String result = null;
@@ -1403,7 +1677,7 @@ namespace DBWebService
             return result;
         }
 
-        //通过书号查询预约人
+        //通过实验室号查询预约人
         public String getstu(String BookNO)
         {
             String stu = null;
@@ -1427,7 +1701,7 @@ namespace DBWebService
             return stu;
         }
 
-        //通过isbn获得书号
+        //通过isbn获得实验室号
         public String getBookNumber()
         {
             String bookno = null;
@@ -1466,6 +1740,7 @@ namespace DBWebService
                 String sql = "select S_Pwd from student where S_Num='" + S_Num + "'";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
+
                 while (rs.Read())
                 {
                     result = rs[0].ToString();

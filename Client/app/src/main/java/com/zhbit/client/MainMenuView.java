@@ -139,7 +139,7 @@ public class MainMenuView extends SurfaceView implements SurfaceHolder.Callback{
         Canvas canvas=holder.lockCanvas();
         try{
             synchronized(holder){
-                //onDraw(canvas);
+                draw(canvas);//Draw改为draw
             }
         }catch(Exception e){
             e.printStackTrace();

@@ -39,6 +39,8 @@ public class DBUtil {
         brrayList.clear();
         arrayList.add("S_Num");
         brrayList.add(S_Num);
+        System.out.println("----------------------------------------------------S_Num:"+S_Num);
+
         crrayList=Soaptest.GetWebServre("selectPwd", arrayList, brrayList);
         result= crrayList.get(0);//得到第0+1个元素
         return result;

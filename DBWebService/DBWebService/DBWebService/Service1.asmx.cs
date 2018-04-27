@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
+using System.Web.Script.Services;
+using System.ComponentModel;
 
 namespace DBWebService
 {
@@ -15,14 +17,21 @@ namespace DBWebService
     /// Service1 的摘要说明
     /// </summary>
     [WebService(Namespace = "http://tempuri.org/")]//公开 XML Web services 之前，请更改默认命名空间。
-    //[WebService(Namespace = "http://192.168.191.1:8086/Service1.asmx")]
+    //[WebService(Namespace = "http://webservice.xjf.com")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
+
     public class Service1 : System.Web.Services.WebService
     {
         MySqlDB DB = new MySqlDB();
+
+ //       [WebMethod(Description = "获取所有货物的信息")]//DBWebService.
+ //       public MySqlDB.Product[] SelectAdminJson(String mgNO)
+//        {
+//            return DB.SelectAdminJson(mgNO).ToArray();
+//        }
 
         [WebMethod(Description = "HelloWorld")]
         public String HelloWorld()
@@ -34,6 +43,18 @@ namespace DBWebService
         public bool Test()//测试连接数据库
         {
             return DB.test();
+        }
+
+        [WebMethod(Description = "所有管理员自制json")]
+        public string selectAllCargoInforaaa()
+        {
+            return DB.selectAllCargoInforaaa();
+        }
+
+        [WebMethod(Description = "selectAdminPasswordJson自建格式")]
+        public string selectAdminPasswordJson(string mgNo)
+        {
+            return DB.selectAdminPasswordJson(mgNo);
         }
 
         [WebMethod(Description = "获取数据库数据测试")]
@@ -59,11 +80,25 @@ namespace DBWebService
             }
         }
 
-        [WebMethod(Description = "登录验证")]
-        public String[] selectADPwd(String mgNo)
+        [WebMethod(Description = "获取所有管理员的信息")]
+        public string[] selectAllCargoInfor()
+        {
+            return DB.selectAllCargoInfor().ToArray();
+        }
+
+        [WebMethod(Description = "获取所有学生的信息")]
+        public string[] selectAllStudent()
+        {
+            return DB.selectAllStudent().ToArray();
+        }
+
+
+        [WebMethod(Description = "管理员登录验证")]
+        public String selectADPwd(String mgNo)
         {
             return DB.selectADPwd(mgNo);
         }
+
         [WebMethod(Description = "册除")]
         public String delete(String sql)
         {
@@ -77,6 +112,7 @@ namespace DBWebService
         {
             return DB.CheckPermitted(mgNO);
         }
+
 
         //查询管理员
         [WebMethod(Description = "查询管理员")]
@@ -108,16 +144,16 @@ namespace DBWebService
             return DB.selectAdminPassword(mgNo);
         }
 
-        //图书入库
-        [WebMethod(Description = "图书入库")]
+        //实验室入库
+        [WebMethod(Description = "实验室入库")]
         public String insertBook(String isbn, String BookNo, String BookName, String Author, String Publishment, String BuyTime, String Borrowed, String Ordered, String instroduction)
         {
             DB.insertBook(isbn, BookNo, BookName, Author, Publishment, BuyTime, Borrowed, Ordered, instroduction);
             return "1";
         }
 
-        //删除图书信息
-        [WebMethod(Description = "删除图书信息")]
+        //删除实验室信息
+        [WebMethod(Description = "删除实验室信息")]
         public String deleteBook(String bookNO)
         {
             DB.deleteBook(bookNO);
@@ -166,7 +202,7 @@ namespace DBWebService
         }
 
         //删除学生信息
-        [WebMethod(Description = "查询学生信息")]
+        [WebMethod(Description = "删除学生信息")]
         public String delectStu(String Sno)
         {
             DB.delectStu(Sno);
@@ -217,30 +253,30 @@ namespace DBWebService
             }
         }
 
-        //查询借阅或预约图书
-        [WebMethod(Description = "查询借阅或预约图书")]
+        //查询借阅或预约实验室
+        [WebMethod(Description = "查询借阅或预约实验室")]
         public String borrowororderbook(String bookNo)
         {
             return DB.borrowororderbook(bookNo);
         }
 
-        //预约图书
-        [WebMethod(Description = "预约图书")]
+        //预约实验室
+        [WebMethod(Description = "预约实验室")]
         public String orderbook(String bookNo, String StuNo)
         {
             DB.orderbook(bookNo, StuNo);
             return "1";
         }
 
-        //借阅图书
-        [WebMethod(Description = "借阅图书")]
+        //借阅实验室
+        [WebMethod(Description = "借阅实验室")]
         public String borrowbook(String bookNo, String StuNo)
         {
             DB.borrowbook(bookNo, StuNo);
             return "1";
         }
 
-        [WebMethod(Description = "查询图书信息")]
+        [WebMethod(Description = "查询实验室信息")]
         public String[] selectbookfromISBN(String ISBN)
         {
             return DB.selectbookfromISBN(ISBN).ToArray();
@@ -251,8 +287,8 @@ namespace DBWebService
             return DB.selectfeeinformation(StuNO).ToArray();
         }
 
-        //得到挂失图书的信息表中的记录的数量
-        [WebMethod(Description = "得到挂失图书的信息表中的记录的数量")]
+        //得到挂失实验室的信息表中的记录的数量
+        [WebMethod(Description = "得到挂失实验室的信息表中的记录的数量")]
         public int getMaxGSBH(String VVV)
         {
             return DB.getMaxGSBH();
@@ -266,43 +302,43 @@ namespace DBWebService
             return "1";
         }
 
-        //已知书名，得到这个书籍的基本信息
-        [WebMethod(Description = "已知书名，得到这个书籍的基本信息")]
+        //已知实验室名，得到这个实验室的基本信息
+        [WebMethod(Description = "已知实验室名，得到这个实验室的基本信息")]
         public String[] selectAllfrombook(String BookName)
         {
             return DB.selectAllfrombook(BookName).ToArray();
         }
 
-        //通过书号得到书的基本信息
-        [WebMethod(Description = "通过书号得到书的基本信息")]
+        //通过实验室号得到实验室的基本信息
+        [WebMethod(Description = "通过实验室号得到实验室的基本信息")]
         public String[] selectbookinformationfrombookno(String bookno)
         {
             return DB.selectbookinformationfrombookno(bookno).ToArray();
         }
 
         //通过学号查询借阅数量
-        [WebMethod(Description = "通过学号查询借阅数量")]
+        [WebMethod(Description = "通过学号查询借阅实验室数量")]
         public int selectcount(String StuNO)
         {
             return DB.selectcount(StuNO);
         }
 
-        //得到同种ISBN的书籍的数量
-        [WebMethod(Description = "得到同种ISBN的书籍的数量")]
+        //得到同种ISBN的实验室的数量
+        [WebMethod(Description = "得到同种ISBN的实验室的数量")]
         public int getNumfrombdetailedInfo(String ISBN)
         {
             return DB.getNumfrombdetailedInfo(ISBN);
         }
 
         //一个ISBN号得到同种号下的这样的书的基本信息
-        [WebMethod(Description = "一个ISBN号得到同种号下的这样的书的基本信息")]
+        [WebMethod(Description = "一个ISBN号得到同种号下的这样的实验室的基本信息")]
         public String[] selectISBNALlfromdetailInfo(String ISBN)
         {
             return DB.selectISBNALlfromdetailInfo(ISBN).ToArray();
         }
 
-        //根据书号得到作者名
-        [WebMethod(Description = "根据书号得到作者名")]
+        //根据实验室号得到管理者名
+        [WebMethod(Description = "根据实验室号得到管理者名")]
         public String getAuthor(String BookNO)
         {
             return DB.getAuthor(BookNO);
@@ -315,50 +351,50 @@ namespace DBWebService
             return DB.getClassAndsname(StuNO).ToArray();
         }
 
-        //通过输入图书的作者得到图书的基本信息
-        [WebMethod(Description = "通过输入图书的作者得到图书的基本信息")]
+        //通过输入实验室的管理者得到实验室的基本信息
+        [WebMethod(Description = "通过输入实验室的管理者得到实验室的基本信息")]
         public String[] getAuthorAllfromBook(String Author)
         {
             return DB.getAuthorAllfromBook(Author).ToArray();
         }
 
-        //通过出版社得到图书的基本信息
-        [WebMethod(Description = "通过出版社得到图书的基本信息")]
+        //通过地点得到实验室的基本信息
+        [WebMethod(Description = "通过地点得到实验室的基本信息")]
         public String[] getPubAllfrombook(String Publishment)
         {
             return DB.getPubAllfrombook(Publishment).ToArray();
         }
 
-        //通过书名和作者得到图书的基本信息
-        [WebMethod(Description = "通过书名和作者得到图书的基本信息")]
+        //通过实验室名和管理者得到实验室的基本信息
+        [WebMethod(Description = "通过实验室名和管理者得到实验室的基本信息")]
         public String[] getBnAuAllfrombook(String BookName, String Author)
         {
             return DB.getBnAuAllfrombook(BookName, Author).ToArray();
         }
 
-        //通过书名和出版社得到图书的基本信息
-        [WebMethod(Description = "通过书名和作者得到图书的基本信息")]
+        //通过实验室名和地点得到实验室书的基本信息
+        [WebMethod(Description = "通过实验室名和地点得到实验室的基本信息")]
         public String[] getBnCbAllfrombook(String BookName, String Publishment)
         {
             return DB.getBnCbAllfrombook(BookName, Publishment).ToArray();
         }
 
         //通过作者和出版社
-        [WebMethod(Description = "通过作者和出版社")]
+        [WebMethod(Description = "通过管理者和地点")]
         public String[] getAuCbAllfrombook(String Author, String Publishment)
         {
             return DB.getAuCbAllfrombook(Author, Publishment).ToArray();
         }
 
-        //通过作者 书名和出版社进行查询
-        [WebMethod(Description = "通过作者 书名和出版社进行查询")]
+        //通过管理者 实验室名和地点进行查询
+        [WebMethod(Description = "通过管理者 实验室名和地点进行查询")]
         public String[] getBnAuCbAllfrombook(String BookName, String Author, String Publishment)
         {
             return DB.getBnAuCbAllfrombook(BookName, Author, Publishment).ToArray();
         }
 
-        //通过书号对ISBN和图书简介的查询
-        [WebMethod(Description = "通过作者 书名和出版社进行查询")]
+        //通过管理者 实验室名和出版社（地点）进行查询
+        [WebMethod(Description = "通过作者 实验室名和地点进行查询")]
         public String[] getISinfromdetails(String BookNo)
         {
             return DB.getISinfromdetails(BookNo).ToArray();
@@ -373,14 +409,14 @@ namespace DBWebService
             return DB.getISfrombook(isbn).ToArray();
         }
 
-        //根据学生的ID得到他预约图书的基本信息
+        //根据学生的ID得到他预约实验室的基本信息
         [WebMethod(Description = "根据学生的ID得到他预约图书的基本信息")]
         public String[] getBNofromOrder(String stuNo)
         {
             return DB.getBNofromOrder(stuNo).ToArray();
         }
-        //根据预约图书信息表得到某同学的预约图书信息
-        [WebMethod(Description = "根据预约图书信息表得到某同学的预约图书信息")]
+        //根据预约实验室信息表得到某同学的预约实验室信息
+        [WebMethod(Description = "根据预约实验室信息表得到某同学的预约实验室信息")]
         public int getNumfromborderreport(String stuno)
         {
 
@@ -388,8 +424,8 @@ namespace DBWebService
 
         }
 
-        //根据学生的学号得到图书的ISBN，BookNO,BookName,Author,Publishment,借阅时间，归还时间
-        [WebMethod(Description = "根据学生的学号得到图书的ISBN，BookNO,BookName,Author,Publishment,借阅时间，归还时间")]
+        //根据学生的学号得到实验室的ISBN，BookNO,BookName,Author,Publishment,借阅时间，归还时间
+        [WebMethod(Description = "根据学生的学号得到实验室的ISBN，BookNO,BookName,Author,Publishment,借时间，归还时间")]
         public String[] getSomeInfo(String stuno)
         {
 
@@ -397,15 +433,15 @@ namespace DBWebService
 
         }
 
-        //根据图书的书号得到图书的基本信息
-        [WebMethod(Description = "根据图书的书号得到图书的基本信息")]
+        //根据实验室的号得到实验室的基本信息
+        [WebMethod(Description = "根据实验室的号得到实验室的基本信息")]
         public String[] getBNSomeInfo(String BookNO)
         {
             return DB.getBNSomeInfo(BookNO).ToArray();
         }
 
-        //根据预约图书书号得到图书基本信息
-        [WebMethod(Description = "根据预约图书书号得到图书基本信息")]
+        //根据预约实验室号得到实验室基本信息
+        [WebMethod(Description = "根据预约实验室号得到实验室基本信息")]
         public String[] getBNSomeINFO(String BookNO)
         {
             return DB.getBNSomeINFO(BookNO).ToArray();
@@ -420,8 +456,8 @@ namespace DBWebService
 
         }
 
-        //通过书号得到归还时间
-        [WebMethod(Description = "通过书号得到归还时间")]
+        //通过实验室号得到归还时间
+        [WebMethod(Description = "通过实验室号得到归还时间")]
         public String gettimefromrecord(String BookNo)
         {
             return DB.gettimefromrecord(BookNo);
@@ -429,22 +465,22 @@ namespace DBWebService
         }
 
 
-        //通过书号判断时候是再借状态
-        [WebMethod(Description = "通过书号判断时候是再借状态")]
+        //通过实验室号判断时候是再借状态
+        [WebMethod(Description = "通过实验室号判断时候是再借状态")]
         public String getifBorrow(String BookNO)
         {
             return DB.getifBorrow(BookNO);
 
         }
 
-        //通过书号查询预约人
-        [WebMethod(Description = "通过书号查询预约人")]
+        //通过实验室号查询预约人
+        [WebMethod(Description = "通过实验室号查询预约人")]
         public String getstu(String BookNO)
         {
             return DB.getstu(BookNO);
         }
-        //通过isbn获得书号
-        [WebMethod(Description = "通过isbn获得书号")]
+        //通过isbn获得实验室号
+        [WebMethod(Description = "通过isbn获得实验室号")]
         public String getBookNumber(String vvv)
         {
             return DB.getBookNumber();
@@ -455,8 +491,8 @@ namespace DBWebService
         {
             return DB.selectPwd(S_Num);
         }
-        //得到挂失图书的信息表中的记录的数量
-        [WebMethod(Description = "得到挂失图书的信息表中的记录的数量")]
+        //得到挂失实验室的信息表中的记录的数量
+        [WebMethod(Description = "得到挂失实验室的信息表中的记录的数量")]
         public int getMaxLBNO()
         {
             return DB.getMaxLBNO();

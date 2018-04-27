@@ -13,7 +13,14 @@ import java.util.ArrayList;
 
 public class HttpConnSoap {
     public ArrayList<String> GetWebServre(String methodName, ArrayList<String> Parameters, ArrayList<String> ParValues) {
+
+
         ArrayList<String> Values = new ArrayList<String>();
+
+        //ServerUrl是指webservice的url
+        //10.0.2.2是让android模拟器访问本地（PC）服务器，不能写成127.0.0.1
+        //11125是指端口号，即挂载到IIS上的时候开启的端口
+        //Service1.asmx是指提供服务的页面
 
         String ServerUrl = "http://192.168.191.1:8086/Service1.asmx";
 
@@ -52,19 +59,23 @@ public class HttpConnSoap {
             con.setDoInput(true); //设置使用 URL 连接进行输入数据
             con.setDoOutput(true);  //设置使用 URL 连接进行输出数据
             con.setUseCaches(false);   //禁止使用缓存
-            con.setConnectTimeout(6000);// 设置超时时间
+            con.setReadTimeout(6000);  //设置数据传输超时时间
+            con.setConnectTimeout(6000);// 设置建立连接超时时间
             con.setRequestMethod("POST");//设置请求方式
 
             con.setRequestProperty("Content-Type", "text/xml;charset=utf-8");//设置内容类型
             con.setRequestProperty("SOAPAction", soapAction);
             con.setRequestProperty("Content-Length", "" + bytes.length);
 
-            con.connect();//连接??
+            con.connect();//建立与指定socket的连接
+
+            System.out.println("http连接成功");
 
             if (con.getResponseCode() != 200) {//状态码200为OK
                 throw new RuntimeException("请求url失败");
             }
 
+            //正式发送http请求后，并将服务器回传的数据流outStream
             OutputStream outStream = con.getOutputStream();
             outStream.write(bytes);
             outStream.flush();
@@ -74,6 +85,9 @@ public class HttpConnSoap {
             //data=parser(inStream);
             //System.out.print("11");
             Values = inputStreamtovaluelist(inStream, methodName);
+
+
+
             //System.out.println(Values.size());
             return Values;
         } catch (Exception e) {
