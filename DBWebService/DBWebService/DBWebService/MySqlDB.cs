@@ -50,65 +50,6 @@ namespace DBWebService
             }
         }
 
-
-        public class Product
-        {
-            private string M_Num;
-            private string M_Permitted;
-            private string M_Pwd;
-            public Product()
-            {
-            }
-
-            public Product(string Num, string Permitted, string Pwd)
-            {
-                this.M_Num = Num;
-                this.M_Permitted = Permitted;
-                this.M_Pwd = Pwd;
-            }
-            public string Num
-            {
-                get { return M_Num; }
-                set { this.M_Num = value; }
-            }
-            public string Permitted
-            {
-                get { return M_Permitted; }
-                set { this.M_Permitted = value; }
-            }
-
-            public string Pwd
-            {
-                get { return M_Pwd; }
-                set { this.M_Pwd = value; }
-            }
-
-        }
-        //查询管理员 YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-        public List<Product> SelectAdminJson(String mgNO)
-        {
-            List<Product> list = new List<Product>();
-            try
-            {
-                String sql = "select M_Permitted,M_Pwd from manager where M_Num='" + mgNO + "'";
-                SqlCommand command = new SqlCommand(sql, sqlCon);
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    list.Add(new Product(reader.GetString(0), reader.GetString(1),reader.GetString(2)));//
-                }
-                reader.Close();
-                command.Dispose();
-            }
-            catch (Exception e)
-            {
-                //
-            }
-
-            return list;
-        }
-
         #region 管理端函数
 
         public bool test()//测试连接数据库
@@ -130,111 +71,6 @@ namespace DBWebService
             }
         }
        
-
-        /// <returns>所有管理员信息</returns>  
-        public string selectAllCargoInforaaa()
-        {
-            String jb;
-            StringBuilder jsonBuilder = new StringBuilder();
-
-            try
-            {
-                string sql = "select * from manager";
-                SqlCommand cmd = new SqlCommand(sql, sqlCon);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                
-                jsonBuilder.Append("{\"");
-                jsonBuilder.Append("Data");
-                jsonBuilder.Append("\":[");
-
-                while (reader.Read())
-                {
-                    jsonBuilder.Append("{");
-
-                    jsonBuilder.Append("\"");
-                    jsonBuilder.Append("M_Num");
-                    jsonBuilder.Append("\":\"");                                       
-                    jsonBuilder.Append(reader[0].ToString());
-                    jsonBuilder.Append("\",");
-                    
-                    jsonBuilder.Append("\"");
-                    jsonBuilder.Append("M_Permitted");
-                    jsonBuilder.Append("\":\"");
-                    jsonBuilder.Append(reader[1].ToString());
-                    jsonBuilder.Append("\",");
-
-                    jsonBuilder.Append("\"");
-                    jsonBuilder.Append("M_Pwd");
-                    jsonBuilder.Append("\":\"");
-                    jsonBuilder.Append(reader[2].ToString());
-                    jsonBuilder.Append("\",");
-
-                    jsonBuilder.Append("},");
-                }
-
-                jsonBuilder.Append("]");
-                jsonBuilder.Append("}");
-
-                
-                reader.Close();
-                cmd.Dispose();
-
-            }
-            catch (Exception)
-            {
-                 
-            }
-            jb = jsonBuilder.ToString();
-
-            return jb;
-        }
-
-
-        public class JsonData : ISerializable
-        {
-            #region 属性
-
-            /// <summary>
-            /// 表示业务是否正常
-            /// </summary>
-            public bool IsSuccess { get; set; }
-
-            /// <summary>
-            /// 返回消息,成功的消息和错误消息都在这里
-            /// </summary>
-            public string Message { get; set; }
-
-            /// <summary>
-            /// 用于返回复杂结果
-            /// </summary>
-            public object Content { get; set; }
-            #endregion
-
-            #region 方法
-            /// <summary>
-            /// 自定义序列化方法
-            /// </summary>
-            /// <param name="info"></param>
-            /// <param name="context"></param>
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
-            {
-                // 运用info对象来添加你所需要序列化的项
-                info.AddValue("IsSuccess", IsSuccess);
-                info.AddValue("Message", Message);
-                if (Content != null)
-                {
-                    info.AddValue("Content", Convert.ChangeType(Content, Content.GetType()));
-                }
-                else
-                {
-                    info.AddValue("Content", null);
-                }
-            }
-
-            public JsonData() { }
-            #endregion
-        }
 
         public String selectAdminPasswordJson(String mgNo)
         {
@@ -372,7 +208,6 @@ namespace DBWebService
             }
 
             return result;
-
         }
 
         public String delete(String sql)
@@ -1761,7 +1596,6 @@ namespace DBWebService
             int result = 0;
             try
             {
-
                 String sql = "select MAX(GSBH) from losebook";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader rs = command.ExecuteReader();
