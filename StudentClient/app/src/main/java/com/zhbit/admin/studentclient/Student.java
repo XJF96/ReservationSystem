@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,13 +19,14 @@ public class Student extends AppCompatActivity{
     private TextView WelcomeText;
     private ImageView ReservationBt;
 
+    private ImageButton helpBt;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.students);
 
+        initButton();
         WelcomeText=(TextView)findViewById(R.id.welcomeText);
-        ReservationBt=(ImageView)findViewById(R.id.ReservationBt);
 
         //取得启动该Activity的Intent对象
         Intent intent =getIntent();
@@ -41,5 +43,20 @@ public class Student extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+        helpBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent HelpIntent=new Intent();
+                HelpIntent.setClass(Student.this,Help.class);
+                HelpIntent.putExtra("S_Num",S_Num);
+                startActivity(HelpIntent);
+            }
+        });
     }
+
+    protected void initButton(){
+        ReservationBt=(ImageView)findViewById(R.id.ReservationBt);
+        helpBt=(ImageButton)findViewById(R.id.helpBt);
+    }
+
 }

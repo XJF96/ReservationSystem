@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".Student"/>
         <activity android:name=".Reservation"/>
+        <activity android:name=".Help"/>
     </application>
 
 </manifest>

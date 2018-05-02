@@ -9,49 +9,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ImageButton
-        android:id="@+id/ReservationBt"
-        android:background="@drawable/yuyue"
+        android:id="@+id/personalCenterBt"
+        android:background="@drawable/personalcenter"
         android:layout_height="120dp"
         android:layout_width="125dp" />
     <ImageButton
-        android:id="@+id/SelectBt"
-        android:background="@drawable/yuyue"
+        android:id="@+id/ReservationBt"
+        android:background="@drawable/reservation"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@+id/personalCenterBt"
+        android:layout_width="125dp" />
+    <ImageButton
+        android:id="@+id/succeedBt"
+        android:background="@drawable/succeed"
         android:layout_height="120dp"
         android:layout_toRightOf="@+id/ReservationBt"
         android:layout_width="125dp" />
-    <ImageButton
-        android:id="@+id/RepairBt"
-        android:background="@drawable/yuyue"
-        android:layout_height="120dp"
-        android:layout_toRightOf="@+id/SelectBt"
-        android:layout_width="125dp" />
 </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/aaBt"
-            android:background="@drawable/yuyue"
+            android:id="@+id/repairBt"
+            android:background="@drawable/repair"
             android:layout_height="120dp"
             android:layout_width="125dp" />
         <ImageButton
-            android:id="@+id/bbBt"
-            android:background="@drawable/yuyue"
+            android:id="@+id/opinionBt"
+            android:background="@drawable/opinion"
             android:layout_height="120dp"
-            android:layout_toRightOf="@+id/aaBt"
+            android:layout_toRightOf="@+id/repairBt"
             android:layout_width="125dp" />
         <ImageButton
             android:id="@+id/helpBt"
-            android:background="@drawable/yuyue"
+            android:background="@drawable/help"
             android:layout_height="120dp"
-            android:layout_toRightOf="@+id/bbBt"
+            android:layout_toRightOf="@+id/opinionBt"
             android:layout_width="125dp" />
     </RelativeLayout>
 
-
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/forumBt"
+            android:background="@drawable/forum"
+            android:layout_width="125dp"
+            android:layout_height="120dp" />
+    </RelativeLayout>
 
 </LinearLayout>
