@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/xjf">
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/colorAccent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="帮助"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="17sp" />
+</RelativeLayout>
     <TextView
         android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="一切解释权由XJF解释"/>
+        android:text="1.个人中心可以看到本用户的信息，可以进行修改密码。  "
+        android:textColor="#2F4F4F"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2.预约界面可以进行实验室预约操纵，根据自己所需预约即可。"
+        android:textColor="#2F4F4F"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3.我的预约界面可以查询本人预约完成的实验室。"
+        android:textColor="#2F4F4F"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4.意见或建议都可以向我们诉说。"
+        android:textColor="#2F4F4F"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5.报修界面用于实验室发生故障，使用者对管理员提交故障问题，使故障及时排除，保证实验室的使用。
+            欢迎使用！"
+        android:textColor="#2F4F4F"/>
 
 </LinearLayout>

@@ -9,7 +9,6 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using System.Web.Script.Services;
-using System.ComponentModel;
 
 namespace DBWebService
 {
@@ -45,18 +44,6 @@ namespace DBWebService
             return DB.test();
         }
 
-        [WebMethod(Description = "所有管理员自制json")]
-        public string selectAllCargoInforaaa()
-        {
-            return DB.selectAllCargoInforaaa();
-        }
-
-        [WebMethod(Description = "selectAdminPasswordJson自建格式")]
-        public string selectAdminPasswordJson(string mgNo)
-        {
-            return DB.selectAdminPasswordJson(mgNo);
-        }
-
         [WebMethod(Description = "获取数据库数据测试")]
         public DataSet Testreader()
         {
@@ -90,6 +77,12 @@ namespace DBWebService
         public string[] selectAllStudent()
         {
             return DB.selectAllStudent().ToArray();
+        }
+
+        [WebMethod(Description = "获取所有意见")]
+        public string[] selectAllOpinion()
+        {
+            return DB.selectAllOpinion().ToArray();
         }
 
 
@@ -194,6 +187,16 @@ namespace DBWebService
             return "1";
         }
 
+        [WebMethod(Description = "添加意见")]
+        public String addOpinion(String S_Num, String Opinion) {
+            DB.addOpinion(S_Num, Opinion);
+            return "1";
+        }
+        [WebMethod(Description = "报修")]
+        public String addRepair(String S_Num, String Repair) {
+            DB.addRepair(S_Num, Repair);
+            return "1";
+        }
         //查询学生信息
         [WebMethod(Description = "查询学生信息")]
         public String[] selectStu(String StuNO)

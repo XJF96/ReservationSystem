@@ -2,14 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/xjf"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="主界面"
+            android:textColor="#2F4F4F"
+            android:textSize="17sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
-
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -31,6 +47,38 @@
         android:layout_toRightOf="@+id/ReservationBt"
         android:layout_width="125dp" />
 </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvgerenzhongxin"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="个人中心"
+            android:gravity="center"
+            android:textColor="#ff000000"/>
+        <TextView
+            android:id="@+id/tvyuyuezhongxin"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="预约中心"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_toRightOf="@id/tvgerenzhongxin"/>
+        <TextView
+            android:id="@+id/tvwodeyuyue"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="我的预约"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_toRightOf="@id/tvyuyuezhongxin"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -53,6 +101,38 @@
             android:layout_toRightOf="@+id/opinionBt"
             android:layout_width="125dp" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvbaoziuzhongxin"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="报修中心"
+            android:textColor="#ff000000"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tvtijiaoyijian"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="提交意见"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_toRightOf="@id/tvbaoziuzhongxin"/>
+        <TextView
+            android:id="@+id/tvbangzhu"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="帮助"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_toRightOf="@id/tvtijiaoyijian"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -62,6 +142,17 @@
             android:background="@drawable/forum"
             android:layout_width="125dp"
             android:layout_height="120dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvluntang"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="实验室论坛"
+            android:textColor="#ff000000"
+            android:gravity="center"/>
     </RelativeLayout>
 
 </LinearLayout>

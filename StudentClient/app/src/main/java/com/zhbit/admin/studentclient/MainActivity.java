@@ -16,15 +16,15 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 public class MainActivity extends AppCompatActivity  {
-    private EditText etProductName;
+//    private EditText etProductName;
     private TextView tvResult;
-    private Button btnSearch;
+//    private Button btnSearch;
     private String result="";
 
     private EditText NameNumberText;
     private EditText PasswordText;
     private Button LoginButton;
-    private  Button RegistrationButton;
+    private  TextView RegistrationButton;
 
     // WSDL文档的URL，192.168.17.156为PC的ID地址    http://localhost:54032/Service1.asmx?wsdlx
     //http://192.168.191.1:8086/
@@ -34,33 +34,45 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);//将顶部时间等覆盖
+        setContentView(R.layout.activity_login);
 
-        etProductName = (EditText) findViewById(R.id.etProductName);
+
+
+//        etProductName = (EditText) findViewById(R.id.etProductName);
         tvResult = (TextView) findViewById(R.id.tvResult);
-        btnSearch = (Button) findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {//点击事件
-                String phoneSec=etProductName.getText().toString().trim();
-                if("".equals(phoneSec)){//||phoneSec.length()<7
-                    etProductName.setError("您输入的号码查询有误！");
-                    etProductName.requestFocus();
-                    etProductName.setText("");
-                    return;
-                }
+//        btnSearch = (Button) findViewById(R.id.btnSearch);
+//        btnSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {//点击事件
+//                String phoneSec=etProductName.getText().toString().trim();
+//                if("".equals(phoneSec)){//||phoneSec.length()<7
+//                    etProductName.setError("您输入的号码查询有误！");
+//                    etProductName.requestFocus();
+//                    etProductName.setText("");
+//                    return;
+//                }
+//
+//                //启动后台异步线程进行连接webService操作，并且根据返回结果在主线程中改变UI
+//                QueryAddressTask queryAddressTask = new QueryAddressTask();
+//                //启动后台任务
+//                queryAddressTask.execute(phoneSec);
+//            }
+//        });
 
-                //启动后台异步线程进行连接webService操作，并且根据返回结果在主线程中改变UI
-                QueryAddressTask queryAddressTask = new QueryAddressTask();
-                //启动后台任务
-                queryAddressTask.execute(phoneSec);
+        initComponent();
+        RegistrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(MainActivity.this,Register.class);
+                startActivity(intent);
             }
         });
 
-        NameNumberText=(EditText) findViewById(R.id.NameNumberText);
-        PasswordText=(EditText) findViewById(R.id.PasswordText);
-        LoginButton = (Button) findViewById(R.id.LoginButton);
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,21 +108,28 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        RegistrationButton = (Button) findViewById(R.id.RegistrationButton);
-
+        //RegistrationButton = (Button) findViewById(R.id.RegistrationButton);
 
     }
+
+    private void initComponent(){
+        RegistrationButton=(TextView)findViewById(R.id.RegistrationButton);
+        NameNumberText=(EditText) findViewById(R.id.NameNumberText);
+        PasswordText=(EditText) findViewById(R.id.PasswordText);
+        LoginButton = (Button) findViewById(R.id.LoginButton);
+    }
+
     public String getRemoteInfo(String phoneSec) throws Exception{
         //String WSDL_URI = "http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx?WSDL";//wsdl 的uri
         String WSDL_URI = "http://192.168.191.1:8086/Service1.asmx?WSDL";
 
         String namespace = "http://tempuri.org/";//namespace
-        String methodName = "selectAdminPassword";//要调用的方法名称
+        String methodName = "selectPwd";//要调用的方法名称selectAdminPassword
 
         SoapObject request = new SoapObject(namespace, methodName);
         // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
 
-        request.addProperty("mgNo", phoneSec);//mobileCode
+        request.addProperty("S_Num", phoneSec);//mobileCode  mgNo
         //request.addProperty("userId", "");
 
         //创建SoapSerializationEnvelope 对象，同时指定soap版本号(之前在wsdl中看到的)
@@ -130,11 +149,10 @@ public class MainActivity extends AppCompatActivity  {
         return result;
     }
 
-
     class QueryAddressTask extends AsyncTask<String, Integer, String> {
         @Override
         protected String doInBackground(String... params) {//后台
-            // 查询手机号码（段）信息*/
+            // 查询信息*/
             try {
                 result = getRemoteInfo(params[0]);
             } catch (Exception e) {

@@ -70,47 +70,7 @@ namespace DBWebService
                 return false;
             }
         }
-       
-
-        public String selectAdminPasswordJson(String mgNo)
-        {
-            String pwd = null;
-
-            StringBuilder jsonBuilder = new StringBuilder();
-            jsonBuilder.Append("{\"");
-            jsonBuilder.Append("Data");
-            jsonBuilder.Append("\":[");
-            try
-            {
-                String sql = "select M_Pwd from manager where M_Num='" + mgNo + "'";
-                SqlCommand command = new SqlCommand(sql, sqlCon);
-                SqlDataReader dr = command.ExecuteReader();
-                jsonBuilder.Append("{");
-
-                jsonBuilder.Append("\"");
-                jsonBuilder.Append("M_Num");
-                jsonBuilder.Append("\":\"");
-                
-
-                while (dr.Read())
-                {             
-                    jsonBuilder.Append(dr[0].ToString());
-                }
-                jsonBuilder.Append("\"");
-                jsonBuilder.Append("}");
-                jsonBuilder.Append("]");
-                jsonBuilder.Append("}");
-
-                dr.Close();
-                command.Dispose();
-            }
-            catch (Exception e)
-            {
-                //
-            }
-
-            return jsonBuilder.ToString();
-        }
+              
 
         /// <returns>所有管理员信息</returns>  
         public List<string> selectAllCargoInfor()
@@ -176,7 +136,33 @@ namespace DBWebService
 
             }
             return list;
-        }  
+        }
+
+        public List<string> selectAllOpinion()
+        {
+            List<string> list = new List<string>();
+
+            try
+            {
+                string sql = "select * from opinion";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    //将结果集信息添加到返回向量中  
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());                
+                }
+                reader.Close();
+                cmd.Dispose();
+            }
+            catch (Exception)
+            {
+
+            }
+            return list;
+        }
 
 
         //登录验证,只是查密码
@@ -224,7 +210,6 @@ namespace DBWebService
             }
             return "1";
         }
-
 
         //权限验证
         public int CheckPermitted(String mgNO)
@@ -470,6 +455,42 @@ namespace DBWebService
             try
             {
                 String sql = "insert into student(S_Num,S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Permitted,S_Pwd) values('" + StuNO + "','" + StuName + "','" + StuAge + "','" + StuSex + "','" + Class + "','" + Department + "','" + Tel + "','" + Permitted + "','" + Password + "')";
+                SqlCommand command = new SqlCommand(sql, sqlCon);
+                command.ExecuteNonQuery();
+                command.Dispose();
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return "1";
+        }
+
+        //添加意见
+        public String addOpinion(String S_Num, String Opinion)
+        {
+            try
+            {
+                String sql = "insert into opinion(S_Num,Opinion) values('" + S_Num + "','" + Opinion + "')";
+                SqlCommand command = new SqlCommand(sql, sqlCon);
+                command.ExecuteNonQuery();
+                command.Dispose();
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return "1";
+        }
+
+        //报修通知
+        public String addRepair(String S_Num, String Repair)
+        {
+            try
+            {
+                String sql = "insert into repair(S_Num,Repair) values('" + S_Num + "','" + Repair + "')";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
                 command.Dispose();
