@@ -2,16 +2,33 @@ package com.zhbit.admin.studentclient;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/29 0029.
  */
 
 public class Reservation extends AppCompatActivity {
+//    private Spinner time;
     private Spinner place;
-//    private List<String> data_list;
-//    private ArrayAdapter<String> arr_adapter;
+    private Spinner function;
+
+//    private String S_Num;
+
+    private List<String> placeList=null;
+    private List<String> FunctionList=null;
+
+    private String[] S_place = {"弘毅楼", "明德楼", "天佑楼", "艺悦楼", "知行楼", "求是楼", "精工楼"};
+    private String[] S_function = {"物理", "化学", "上机", "天文", "沙盘", "会议", "艺术"};
+
+    private ArrayAdapter S_place_adapter;
+    private ArrayAdapter S_function_adapter;
 
 //    Intent intent_getS_Num=getIntent();
 //    private String S_Num=intent_getS_Num.getStringExtra("S_Num");
@@ -20,23 +37,57 @@ public class Reservation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.students_reservation);
 
-//        place=(Spinner)findViewById(R.id.place);
-//
-//        //数据
-//        data_list = new ArrayList<String>();
-//        data_list.add("弘毅楼");
-//        data_list.add("明德楼");
-//        data_list.add("天佑楼");
-//        data_list.add("艺悦楼");
-//        data_list.add("知行楼");
-//        data_list.add("求是楼");
-//        data_list.add("精工楼");
-//
+        initComponent();
+        setData();
+
 //        //适配器
-//        arr_adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data_list);
+        S_place_adapter= new ArrayAdapter(this, android.R.layout.simple_spinner_item, placeList);
 //        //设置样式
-//        arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        S_place_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        //加载适配器
-//        place.setAdapter(arr_adapter);
+        place.setAdapter(S_place_adapter);
+
+        S_function_adapter= new ArrayAdapter(this, android.R.layout.simple_spinner_item, FunctionList);
+//        //设置样式
+        S_function_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        //加载适配器
+        function.setAdapter(S_function_adapter);
+
    }
+
+    private void initComponent(){
+        placeList = new ArrayList<>();
+        FunctionList = new ArrayList<>();
+
+//        time=(Spinner)findViewById(R.id.time);
+        place=(Spinner)findViewById(R.id.place);
+        function=(Spinner)findViewById(R.id.function);
+    }
+
+    private void setData() {
+        for (int i = 0; i < S_place.length; i++) {
+            placeList.add(S_place[i]);
+        }
+        for (int i = 0; i < S_function.length; i++) {
+            FunctionList.add(S_function[i]);
+        }
+    }
+
+
+    public void onItemSelectedPlace(AdapterView<?> parent, View view, int position, long id) {
+        String placeName = (String) S_place_adapter.getItem(position);
+//        tv.setText(cityName);
+    }
+    public void onNothingSelectedPlace(AdapterView<?> parent) {
+
+    }
+
+    public void onItemSelectedFunction(AdapterView<?> parent, View view, int position, long id) {
+        String placeName = (String) S_function_adapter.getItem(position);
+//        tv.setText(cityName);
+    }
+    public void onNothingSelectedFunction(AdapterView<?> parent) {
+
+    }
+
 }

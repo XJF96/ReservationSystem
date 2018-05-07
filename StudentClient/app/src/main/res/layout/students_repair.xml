@@ -19,9 +19,46 @@
             android:textSize="17sp" />
     </RelativeLayout>
     <TextView
+        android:id="@+id/repairtv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="报修中心"
+        android:textColor="#2F4F4F"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请在下框输入报修信息（包括发现时间，实验室名，具体设施，何种故障或问题）："
+        android:textSize="20dp"
         android:textColor="#2F4F4F"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/bg_edittext_focused">
+            <EditText
+                android:id="@+id/repairet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="请输入报修信息（限制225个文字内）"
+                android:textColorHint="#A8A8A8"
+                android:textColor="#2F4F4F"
+                android:maxLength="225"
+                />
+        </ScrollView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/pushrepair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="提交"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/repairresulttv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#2F4F4F"/>
 </LinearLayout>

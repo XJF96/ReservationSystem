@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity  {
 
         // 获取返回的数据
         SoapObject object = (SoapObject) envelope.bodyIn;
-        // 获取返回的结果
+        // 获取第一个返回的结果
         result = object.getProperty(0).toString();
 
         Log.d("debug",result);

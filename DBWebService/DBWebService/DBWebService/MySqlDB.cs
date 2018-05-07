@@ -450,11 +450,11 @@ namespace DBWebService
         }
 
         //添加学生
-        public String addStu(String StuNO, String StuName, String StuAge, String StuSex, String Class, String Department, String Tel, String Permitted, String Password)
+        public String addStu(String StuNO, String StuName, String StuAge, String StuSex, String Class, String Department, String Tel, String Password)
         {
             try
             {
-                String sql = "insert into student(S_Num,S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Permitted,S_Pwd) values('" + StuNO + "','" + StuName + "','" + StuAge + "','" + StuSex + "','" + Class + "','" + Department + "','" + Tel + "','" + Permitted + "','" + Password + "')";
+                String sql = "insert into student(S_Num,S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Pwd) values('" + StuNO + "','" + StuName + "','" + StuAge + "','" + StuSex + "','" + Class + "','" + Department + "','" + Tel + "','" + Password + "')";
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 command.ExecuteNonQuery();
                 command.Dispose();
@@ -509,7 +509,7 @@ namespace DBWebService
             String[] ss = new String[8];
             try
             {
-                String sql = "select S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Permitted,S_Pwd from student where S_Num='" + StuNO + "'";             
+                String sql = "select S_Num,S_Name,S_Age,S_Sex,S_Class,S_Department,S_Phone,S_Pwd from student where S_Num='" + StuNO + "'";             
                 SqlCommand command = new SqlCommand(sql, sqlCon);
                 SqlDataReader dr = command.ExecuteReader();
 
@@ -519,10 +519,10 @@ namespace DBWebService
                     ss[1] = dr[1].ToString();
                     ss[2] = dr[2].ToString();
                     ss[3] = dr[3].ToString();
-                    ss[4] = dr[4].ToString(); ;
+                    ss[4] = dr[4].ToString();
                     ss[5] = dr[5].ToString();
                     ss[6] = dr[6].ToString();
-                    ss[7] = dr[7].ToString();
+                    ss[7] = dr[6].ToString();
                 }
                 dr.Close();
                 command.Dispose();

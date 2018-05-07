@@ -35,16 +35,22 @@ public class Student extends AppCompatActivity{
         //取得启动该Activity的Intent对象
         Intent intent =getIntent();
         S_Num=intent.getStringExtra("S_Num");
-        welcome="当前登录账号："+S_Num+"!";
+        welcome="当前登录账号："+S_Num;
         WelcomeText.setText(welcome);
 
         personalCenterBt.setOnClickListener(new View.OnClickListener() {//跳转预约界面
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.setClass(Student.this,PersonalCenter.class);
-                intent.putExtra("S_Num",S_Num);//
-                startActivity(intent);
+
+
+                Intent PersonalCenterIntent=new Intent();
+                PersonalCenterIntent.setClass(Student.this,PersonalCenter.class);
+
+                Bundle personalCenterBd=new Bundle();
+                personalCenterBd.putString("personalCenterS_Num",S_Num);
+
+                PersonalCenterIntent.putExtras(personalCenterBd);
+                startActivity(PersonalCenterIntent);
             }
         });
         ReservationBt.setOnClickListener(new View.OnClickListener() {//跳转预约界面
@@ -52,7 +58,7 @@ public class Student extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.setClass(Student.this,Reservation.class);
-                intent.putExtra("S_Num",S_Num);//
+                intent.putExtra("S_Num",S_Num);
                 startActivity(intent);
             }
         });
@@ -68,19 +74,27 @@ public class Student extends AppCompatActivity{
         repairBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent HelpIntent=new Intent();
-                HelpIntent.setClass(Student.this,Repair.class);
-                HelpIntent.putExtra("S_Num",S_Num);
-                startActivity(HelpIntent);
+                Intent RepairIntent=new Intent();
+                RepairIntent.setClass(Student.this,Repair.class);
+
+                Bundle repairBd=new Bundle();
+                repairBd.putString("repairS_Num",S_Num);
+
+                RepairIntent.putExtras(repairBd);
+                startActivity(RepairIntent);
             }
         });
         opinionBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent HelpIntent=new Intent();
-                HelpIntent.setClass(Student.this,Opinion.class);
-                HelpIntent.putExtra("S_Num",S_Num);
-                startActivity(HelpIntent);
+                Intent OpinionIntent=new Intent();
+                OpinionIntent.setClass(Student.this,Opinion.class);
+
+                Bundle opinionBd=new Bundle();
+                opinionBd.putString("opinionS_Num",S_Num);
+
+                OpinionIntent.putExtras(opinionBd);
+                startActivity(OpinionIntent);
             }
         });
         helpBt.setOnClickListener(new View.OnClickListener() {

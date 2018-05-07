@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="论坛中心"
+            android:text="实验室论坛"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp" />
     </RelativeLayout>

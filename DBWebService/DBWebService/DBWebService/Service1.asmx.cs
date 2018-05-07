@@ -181,9 +181,9 @@ namespace DBWebService
 
         //添加学生
         [WebMethod(Description = "添加学生")]
-        public String addStu(String StuNO, String StuName, String StuAge, String StuSex, String Class, String Department, String Tel, String Permitted, String Password)
+        public String addStu(String StuNO, String StuName, String StuAge, String StuSex, String Class, String Department, String Tel, String Password)
         {
-            DB.addStu(StuNO, StuName, StuAge, StuSex, Class, Department, Tel, Permitted, Password);
+            DB.addStu(StuNO, StuName, StuAge, StuSex, Class, Department, Tel, Password);
             return "1";
         }
 
