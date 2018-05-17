@@ -41,8 +41,6 @@ public class Student extends AppCompatActivity{
         personalCenterBt.setOnClickListener(new View.OnClickListener() {//跳转预约界面
             @Override
             public void onClick(View v) {
-
-
                 Intent PersonalCenterIntent=new Intent();
                 PersonalCenterIntent.setClass(Student.this,PersonalCenter.class);
 

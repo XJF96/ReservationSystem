@@ -123,22 +123,25 @@ public class MainActivity extends AppCompatActivity  {
         //String WSDL_URI = "http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx?WSDL";//wsdl 的uri
         String WSDL_URI = "http://192.168.191.1:8086/Service1.asmx?WSDL";
 
-        String namespace = "http://tempuri.org/";//namespace
-        String methodName = "selectPwd";//要调用的方法名称selectAdminPassword
+        String namespace = "http://tempuri.org/";
+        //要调用的方法名称selectAdminPassword
+        String methodName = "selectPwd";
 
         SoapObject request = new SoapObject(namespace, methodName);
         // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
 
-        request.addProperty("S_Num", phoneSec);//mobileCode  mgNo
+        request.addProperty("S_Num", phoneSec);
         //request.addProperty("userId", "");
 
         //创建SoapSerializationEnvelope 对象，同时指定soap版本号(之前在wsdl中看到的)
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapSerializationEnvelope.VER11);
-        envelope.bodyOut = request;//由于是发送请求，所以是设置bodyOut
-        envelope.dotNet = true;//由于是.net开发的webservice，所以这里要设置为true
+        //由于是发送请求，所以是设置bodyOut
+        envelope.bodyOut = request;
+        //由于是.net开发的webservice，所以这里要设置为true
+        envelope.dotNet = true;
 
         HttpTransportSE httpTransportSE = new HttpTransportSE(WSDL_URI);
-        httpTransportSE.call(namespace+methodName, envelope);//调用
+        httpTransportSE.call(namespace+methodName, envelope);
 
         // 获取返回的数据
         SoapObject object = (SoapObject) envelope.bodyIn;
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         @Override
-        //此方法可以在主线程改变UI
+
         protected void onPostExecute(String result) {
             // 将WebService返回的结果显示在TextView中
             tvResult.setText(result);

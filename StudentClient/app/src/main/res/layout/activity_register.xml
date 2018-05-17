@@ -52,7 +52,6 @@
                     android:textColor="#2F4F4F"
                     android:hint="请输入账号"
                     android:textColorHint="#A8A8A8"/>
-
             </LinearLayout>
 
             <View

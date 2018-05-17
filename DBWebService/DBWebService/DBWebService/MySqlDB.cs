@@ -431,7 +431,7 @@ namespace DBWebService
             return "1";
         }
 
-        //借阅图书
+        //借阅实验室
         public String GetBookNoISBN(String bookNo)
         {
             String sql = "select ISBN from bdetailedinformation  Where B_Num = '" + bookNo + "'";
@@ -502,10 +502,11 @@ namespace DBWebService
 
             return "1";
         }
-
+        
         //查询学生信息
         public String[] selectStu(String StuNO)
         {
+            ArrayList selectStlist = new ArrayList();
             String[] ss = new String[8];
             try
             {
@@ -522,11 +523,16 @@ namespace DBWebService
                     ss[4] = dr[4].ToString();
                     ss[5] = dr[5].ToString();
                     ss[6] = dr[6].ToString();
-                    ss[7] = dr[6].ToString();
+                    ss[7] = dr[7].ToString();
                 }
                 dr.Close();
                 command.Dispose();
 
+                
+                for (int i = 0; i < ss.Length; i++) {
+                    selectStlist.Add(ss[i]);
+                }
+                 
             }
             catch (Exception e)
             {
@@ -1635,5 +1641,7 @@ namespace DBWebService
         }
 
         #endregion
+
+        public List<string> list { get; set; }
     }
 }
