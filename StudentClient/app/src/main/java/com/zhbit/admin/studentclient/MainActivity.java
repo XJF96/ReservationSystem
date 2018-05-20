@@ -17,8 +17,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class MainActivity extends AppCompatActivity  {
 //    private EditText etProductName;
-    private TextView tvResult;
 //    private Button btnSearch;
+
+    private TextView tvResult;
     private String result="";
 
     private EditText NameNumberText;

@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/4/29 0029.
+ *
+ * @author Administrator
+ * @date 2018/4/29 0029
  */
 
 public class Reservation extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class Reservation extends AppCompatActivity {
 //    Intent intent_getS_Num=getIntent();
 //    private String S_Num=intent_getS_Num.getStringExtra("S_Num");
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.students_reservation);

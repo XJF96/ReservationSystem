@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class Help extends AppCompatActivity{
     private TextView tv;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.students_help);

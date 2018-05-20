@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 public class Forum extends AppCompatActivity{
     //private TextView tvsucceed;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.students_forum);

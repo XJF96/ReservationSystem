@@ -8,7 +8,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
- * Created by Administrator on 2018/4/29 0029.
+ *
+ * @author Administrator
+ * @date 2018/4/29 0029
  */
 
 public class Student extends AppCompatActivity{
@@ -25,6 +27,7 @@ public class Student extends AppCompatActivity{
     private ImageButton helpBt;
     private ImageButton forumBt;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.students);
@@ -38,7 +41,7 @@ public class Student extends AppCompatActivity{
         welcome="当前登录账号："+S_Num;
         WelcomeText.setText(welcome);
 
-        personalCenterBt.setOnClickListener(new View.OnClickListener() {//跳转预约界面
+        personalCenterBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent PersonalCenterIntent=new Intent();
@@ -51,7 +54,7 @@ public class Student extends AppCompatActivity{
                 startActivity(PersonalCenterIntent);
             }
         });
-        ReservationBt.setOnClickListener(new View.OnClickListener() {//跳转预约界面
+        ReservationBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
